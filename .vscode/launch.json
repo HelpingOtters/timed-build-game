@@ -2,6 +2,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CodeLens (Launch) - phase3",
+            "request": "launch",
+            "mainClass": "phase3",
+            "projectName": "low-card-game_2793c221"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - Phase3",
+            "request": "launch",
+            "mainClass": "Phase3",
+            "projectName": "low-card-game_2793c221"
+        },
+        {
+            "type": "java",
             "name": "CodeLens (Launch) - phase2",
             "request": "launch",
             "mainClass": "phase2"
