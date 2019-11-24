@@ -6,12 +6,6 @@ import javax.swing.border.TitledBorder;
 
 /*********************************************************************
  * Phase 2
- * client (main)
- * CardTable
- * GUI Cards
- * Card import
- * Hand import 
- * Deck import 
  * 
  * CardTable
  * description:  creates CardTable class that extends JFrame
@@ -21,41 +15,6 @@ import javax.swing.border.TitledBorder;
  * description:  creates a new GUICard class 
  * usage:        manages the reading and building of the card
  *               image Icons
- * 
- * client (main)
- * @todo         --create and add labels to panel in client (main)--
- *               static Card randomCardGenerator()
- * 
- * CardTable
- * @todo         public CardTable(title, numCardsPerHand, numPlayers)
- *               public getNumCardsPerHand() ....done
- *               public getNumPlayers() ....done
- * 
- * 
- * GUI Cards
- * @todo         static void loadCardIcons()
- *               static public getIcon(Card card)
- *               static public Icon getBackCardIcon()
- * 
- * Card import
- * @todo         --import Card from Assig3--
- *               --adjust for joker--
- *               public static char[] valuRanks()
- *               static void arraySort(Card[], int arraySize)
- *               
- * Hand import
- * @todo         void sort()
- *               public Card playCard(int cardIndex) ....done
- * 
- * Deck import
- * @todo         --import Deck from Assig3--
- *               --adjust for the joker in MasterPack--
- *               boolean addCard(Card card)
- *               boolean removeCard(Card card)
- *               void sort()
- *               int getNumCards()
- *                             
- *           
  *********************************************************************/
 
  /******************************
@@ -146,16 +105,12 @@ public class phase2
  * description:  creates CardTable class that extends JFrame
  * usage:        controls the positioning of the panels and 
  *               cards of the GUI
- * 
- * @todo         create and add labels to panel in main
- *               public CardTable(title, numCardsPerHand, numPlayers)
- *               public getNumCardsPerHand() ....done
- *               public getNumPlayers() ....done
  **********************************************************************/
 
  class CardTable extends JFrame
 {
-   //members establish the grid layout for the JPanels 
+   private static final long serialVersionUID = 1L;
+   // members establish the grid layout for the JPanels
    static int MAX_CARDS_PER_HAND = 56;
    static int MAX_PLAYERS = 2;
    private int numCardsPerHand;
@@ -198,7 +153,6 @@ public class phase2
 
 
    }
-
    //accessors 
    public int getNumCardsPerHand()
    {
@@ -220,10 +174,6 @@ public class phase2
  * description:  creates a new GUICard class 
  * usage:        manages the reading and building of the card
  *               image Icons.
- * 
- * @todo         static void loadCardIcons()
- *               static public getIcon(Card card)
- *               static public Icon getBackCardIcon()
  *****************************************************************/
 class GUICard
 {
@@ -255,7 +205,6 @@ class GUICard
       }
       //fills the back of card
       iconBack = new ImageIcon("images/BK.gif");
-
       iconsLoaded = true;
    }
 
@@ -298,24 +247,7 @@ class GUICard
          return -1;
       }
 
-
    }
-
-   // /**
-   //  * turns 0 - 13 into "A", "2", "3", ... "Q", "K", "X"
-   //  */
-   //  static String turnIntIntoCardValue(int k)
-   //  {
-   //    //from phase 1
-   //  }
-
-   //  /**
-   //   * turns 0 - 3 into "C", "D", "H", "S"
-   //   */
-   //  static String turnIntIntoCardSuit(int j)
-   //  {
-   //    // from phase 1
-   //  }
 
 /*-----------------------------------------------------
  * End Of GUI Card
@@ -325,12 +257,7 @@ class GUICard
 
 /****************************************************************
  * Card
- * import Card class 
- * 
- * @todo    --import Card class from Assig3--
- *          --adjust for joker-- 
- *          public static char[] valuRanks
- *          static arraySort(Card[], int arraySize) 
+ * imported Card class 
  ***************************************************************/ 
 class Card
 {
@@ -516,10 +443,6 @@ class Card
  /****************************************************************
  * Hand 
  * imported Hand class 
- * 
- * @todo         import Hand from Assig3
- *               void sort()
- *               public Card playCard(int cardIndex) ....done 
  ***************************************************************/ 
 class Hand
 {
@@ -666,13 +589,6 @@ class Hand
  /****************************************************************
  * Deck import
  * imported Deck class
- * 
- * @todo         --import Deck from Assig3--
- *               --adjust for the joker in MasterPack--
- *               boolean addCard(Card card)
- *               boolean removeCard(Card card)
- *               void sort()
- *               int getNumCards()
  ***************************************************************/ 
 
 
