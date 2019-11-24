@@ -3,6 +3,8 @@ import javax.swing.*;
 import javax.swing.border.*;
 import java.util.*;
 import java.util.Random;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 
 /*********************************************************************
  * Phase 2
@@ -89,18 +91,18 @@ public class phase2
       myCardTable.setVisible(true);
 
       // CREATE LABELS ----------------------------------------------------
-      for (card = 0; card < NUM_CARDS_PER_HAND; card++)
+      for (int card = 0; card < NUM_CARDS_PER_HAND; card++)
       {
          //back labels made for playing cards 
-         computerLabels[cards] = new JLabel(GUICard.getBackcardIcon());
+         computerLabels[card] = new JLabel(GUICard.getBackCardIcon());
 
          //label for random card 
-         tempIcon = GUICard.getIcon(generateRandomCard());
+         tempIcon = GUICard.getIcon(randomCardGenerator());
          humanLabels[card] = new JLabel(tempIcon);
       }
   
       // ADD LABELS TO PANELS -----------------------------------------
-      for (card = 0; card < NUM_CARDS_PER_HAND; card++)
+      for (int card = 0; card < NUM_CARDS_PER_HAND; card++)
       {
          //index label added to computer panel 
          myCardTable.pnlComputerHand.add(computerLabels[card]);
@@ -111,10 +113,10 @@ public class phase2
       
       // and two random cards in the play region (simulating a computer/hum ply)
       //code goes here ...
-      for (card = 0; card < NUM_PLAYERS; card++)
+      for (int card = 0; card < NUM_PLAYERS; card++)
       {
          //random card generated 
-         tempIcon = GUICard.getIcon(generateRandomCard());
+         tempIcon = GUICard.getIcon(randomCardGenerator());
          //assigns labels to played card 
          playedCardLabels[card] = new JLabel(tempIcon);
          //assigns labels to played area 
@@ -153,7 +155,7 @@ public class phase2
  *               public getNumPlayers() ....done
  **********************************************************************/
 
- class CardTable extends Jframe
+ class CardTable extends JFrame
 {
    //members establish the grid layout for the JPanels 
    static int MAX_CARDS_PER_HAND = 56;
@@ -232,6 +234,8 @@ class GUICard
    private static Icon iconBack;
    static boolean iconsLoaded = false;
 
+   //identifies card icon filenames 
+   private static char[] cardSuits = {'C', 'D', 'H', 'S'};
    /**
     * generates the image icon array from files 
     */
@@ -242,7 +246,7 @@ class GUICard
 
       //generates file names of icon and adds to Icon's array
       String filename = "";
-      for (int i = 0; i < Card.valueRanks.length; ++i)
+      for (int i = 0; i < Card.valuRanks.length; ++i)
       {
          for (int j = 0; j < cardSuits.length; ++j)
          {
@@ -251,7 +255,7 @@ class GUICard
          }
       }
       //fills the back of card
-      iconBack = new Imageicon("images/BK.gif");
+      iconBack = new ImageIcon("images/BK.gif");
 
       iconsLoaded = true;
    }
