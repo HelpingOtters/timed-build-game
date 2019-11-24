@@ -301,22 +301,6 @@ class GUICard
 
    }
 
-   // /**
-   //  * turns 0 - 13 into "A", "2", "3", ... "Q", "K", "X"
-   //  */
-   //  static String turnIntIntoCardValue(int k)
-   //  {
-   //    //from phase 1
-   //  }
-
-   //  /**
-   //   * turns 0 - 3 into "C", "D", "H", "S"
-   //   */
-   //  static String turnIntIntoCardSuit(int j)
-   //  {
-   //    // from phase 1
-   //  }
-
 /*-----------------------------------------------------
  * End Of GUI Card
  *-----------------------------------------------/
