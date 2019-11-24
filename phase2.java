@@ -90,10 +90,17 @@ public class phase2
     */
     static Card randomCardGenerator()
     {
-       Deck deck = new Deck();
-       Random randomGen = new Random();
-       return deck.inspectCard(randomGen.nextInt(deck.getNumCards()));
-    }
+      Random rnd = new Random();
+
+      // Setup Random Suit
+      Card.Suit rndSuit =
+         Card.Suit.values()[rnd.nextInt(Card.Suit.values().length)];
+
+      // Setup Random Value
+      char rndValue = Card.valuRanks[rnd.nextInt(Card.valuRanks.length)];
+
+      return new Card(rndValue, rndSuit);
+   }
 }
 /*-----------------------------
  * End of phase2 client (main)
