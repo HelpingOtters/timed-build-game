@@ -250,6 +250,7 @@ class GUICard
          {
             filename = "images/" + Card.valuRanks[i] + cardSuits[j]
                + ".gif";
+            iconCards[i][j] = new ImageIcon(filename);
          }
       }
       //fills the back of card
