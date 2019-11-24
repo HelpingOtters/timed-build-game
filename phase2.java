@@ -1,10 +1,8 @@
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.*;
-import java.util.*;
 import java.util.Random;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
+import javax.swing.border.TitledBorder;
 
 /*********************************************************************
  * Phase 2
@@ -190,13 +188,13 @@ public class phase2
 
       //place panels on grid 
       add(pnlPlayArea, BorderLayout.CENTER);
-      add(pnlComputerHand, BorderLayout.EAST);
-      add(pnlHumanHand, BorderLayout.WEST);
+      add(pnlComputerHand, BorderLayout.NORTH);
+      add(pnlHumanHand, BorderLayout.SOUTH);
 
       //labels the borders 
-      pnlPlayArea.setBorder(new TitleBorder("Community"));
-      pnlComputer.setBorder(new TitleBorder("Opponent"));
-      pnlHumanHand.setBorder(new TitleBorder("You"));
+      pnlPlayArea.setBorder(new TitledBorder("Community"));
+      pnlComputerHand.setBorder(new TitledBorder("Opponent"));
+      pnlHumanHand.setBorder(new TitledBorder("You"));
 
 
    }
