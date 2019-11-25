@@ -68,7 +68,7 @@ public class phase3 implements ActionListener
       myCardTable.setVisible(true);
       
       // CREATE LABELS ----------------------------------------------------
-
+      Game game = new Game();
       for (int card = 0; card < NUM_CARDS_PER_HAND; card++)
       {
          //back labels made for playing cards 
@@ -81,7 +81,7 @@ public class phase3 implements ActionListener
          cardButtons[card] = new JButton(tempIcon);
          cardButtons[card].setActionCommand(Integer.toString(card));
          //cardButtons[card].setSize(73,97);
-         //cardButtons[card].addActionListener(this);
+         cardButtons[card].addActionListener(game);
       }
       
       // ADD LABELS TO PANELS -----------------------------------------
@@ -189,7 +189,7 @@ public class phase3 implements ActionListener
          e.printStackTrace();
       }
    }
-
+/*
    @Override
    public void actionPerformed(ActionEvent e) 
    {
@@ -234,25 +234,26 @@ public class phase3 implements ActionListener
             System.out.println("Card 6");
          else
             System.out.println("Error");
-         */
+         *
    }
+   */
 
 }
-/*
+
 class Game implements ActionListener
    { 
       @Override
       public void actionPerformed(ActionEvent e) 
       {
          String cardPlayed = e.getActionCommand();
-
+/*
          int cardNum = Integer.parseInt(cardPlayed);
 
          Icon tempIcon = GUICard.getIcon(LowCardGame.getHand(1).inspectCard(cardNum));
 
-         
+         */
          //Test
-         /*
+         
          if(cardPlayed.equals("0"))
             //myCardTable.pnlHumanHand.set
             System.out.println("Card 0");
@@ -270,10 +271,10 @@ class Game implements ActionListener
             System.out.println("Card 6");
          else
             System.out.println("Error");
-        /
+        
       }
    }
-*/
+
 /*-----------------------------
  * End of phase3 client (main)
  * ----------------------/
