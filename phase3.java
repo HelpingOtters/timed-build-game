@@ -1,4 +1,6 @@
 import java.awt.*;
+
+import javax.lang.model.util.ElementScanner6;
 import javax.swing.*;
 import javax.swing.border.*;
 import java.util.Random;
@@ -20,7 +22,7 @@ import java.awt.event.*;
  * 
  * 
  ***********************************************************************/
-public class phase3
+public class phase3 implements ActionListener
 {
    static int NUM_CARDS_PER_HAND = 7;
    static int  NUM_PLAYERS = 2;
@@ -28,10 +30,12 @@ public class phase3
    static JLabel[] humanLabels = new JLabel[NUM_CARDS_PER_HAND];  
    static JLabel[] playedCardLabels  = new JLabel[NUM_PLAYERS]; 
    static JLabel[] playLabelText  = new JLabel[NUM_PLAYERS]; 
+   static JButton cardButtons[] = new JButton[NUM_CARDS_PER_HAND];
+   static CardGameFramework LowCardGame;
+
    
    public static void main(String[] args)
    {
-      int k;
       Icon tempIcon;
 
       int numPacksPerDeck = 1;
@@ -39,12 +43,13 @@ public class phase3
       int numUnusedCardsPerPack = 0;
       Card[] unusedCardsPerPack = null;
 
-      CardGameFramework LowCardGame = new CardGameFramework(
-      numPacksPerDeck, numJokersPerPack,
-      numUnusedCardsPerPack, unusedCardsPerPack,
-      NUM_PLAYERS, NUM_CARDS_PER_HAND
-   );
+      LowCardGame = new CardGameFramework(
+         numPacksPerDeck, numJokersPerPack,
+         numUnusedCardsPerPack, unusedCardsPerPack,
+         NUM_PLAYERS, NUM_CARDS_PER_HAND
+         );
       //System.out.println(LowCardGame.deal());
+      LowCardGame.deal();
     
       //Icons loaded from GUICard 
       GUICard.loadCardIcons();
@@ -60,70 +65,101 @@ public class phase3
       myCardTable.setVisible(true);
       
       // CREATE LABELS ----------------------------------------------------
-     Hand hand = new Hand();
+      
       for (int card = 0; card < NUM_CARDS_PER_HAND; card++)
       {
          //back labels made for playing cards 
          computerLabels[card] = new JLabel(GUICard.getBackCardIcon());
+         
+         //labels for each card in the user's hand
+         tempIcon = GUICard.getIcon(LowCardGame.getHand(1).inspectCard(card));
 
-         //label for random card 
-         tempIcon = GUICard.getIcon(randomCardGenerator());
-         //tempIcon = GUICard.getIcon(deck.inspectCard(card));
-         humanLabels[card] = new JLabel(tempIcon);
+         //humanLabels[card] = new JLabel(tempIcon);
+         cardButtons[card] = new JButton(tempIcon);
+         cardButtons[card].setActionCommand(Integer.toString(card));
+         //cardButtons[card].setSize(73,97);
+         cardButtons[card].addActionListener(this);
       }
-
+      
       // ADD LABELS TO PANELS -----------------------------------------
-      for (int card = 0; card < NUM_CARDS_PER_HAND; card++) {
+      for (int card = 0; card < NUM_CARDS_PER_HAND; card++)
+      {
          // index label added to computer panel
          myCardTable.pnlComputerHand.add(computerLabels[card]);
 
          // index label added to human panel
-         myCardTable.pnlHumanHand.add(humanLabels[card]);
+         myCardTable.pnlHumanHand.add(cardButtons[card]);
       }
-
-      // and two random cards in the play region (simulating a computer/hum ply)
-      // code goes here ...
-      for (int card = 0; card < NUM_PLAYERS; card++) {
-         // random card generated
-         tempIcon = GUICard.getIcon(randomCardGenerator());
-         //tempIcon = GUICard.getIcon(hand.inspectCard(card));
-         // assigns labels to played card
-         playedCardLabels[card] = new JLabel(tempIcon);
-         // assigns labels to played area
+      /*
          myCardTable.pnlPlayArea.add(playedCardLabels[card]);
-      }
-
+      */
       // show everything to the user
       myCardTable.setVisible(true);
+   }
+   
 
-      
+   @Override
+   public void actionPerformed(ActionEvent e) 
+   {
+      // TODO Auto-generated method stub
+         String cardPlayed = e.getActionCommand();
+         if(cardPlayed.equals("0"))
+            //myCardTable.pnlHumanHand.set
+            System.out.println("Card 0");
+         else if(cardPlayed.equals("1"))
+            System.out.println("Card 1");
+         else if(cardPlayed.equals("2"))
+            System.out.println("Card 2");
+         else if(cardPlayed.equals("3"))
+            System.out.println("Card 3");
+         else if(cardPlayed.equals("4"))
+            System.out.println("Card 4");
+         else if(cardPlayed.equals("5"))
+            System.out.println("Card 5");
+         else if(cardPlayed.equals("6"))
+            System.out.println("Card 6");
+         else
+            System.out.println("Error");
+
    }
 
-   class Game implements ActionListener
-      {
-         
-         //@Override
-         public void actionPerformed(ActionEvent e) 
-         {
-            // TODO Auto-generated method stub
-            System.out.println("TEST");
-
-         }
-
-      }
-
-   /**
-    * returns a new random card for the main to use in its test
-    * 
-    * @return card
-    */
-   static Card randomCardGenerator() {
-      Deck deck = new Deck();
-      Random randomGen = new Random();
-      return deck.inspectCard(randomGen.nextInt(deck.getNumCards()));
-   }
 }
+/*
+class Game implements ActionListener
+   { 
+      @Override
+      public void actionPerformed(ActionEvent e) 
+      {
+         String cardPlayed = e.getActionCommand();
 
+         int cardNum = Integer.parseInt(cardPlayed);
+
+         Icon tempIcon = GUICard.getIcon(LowCardGame.getHand(1).inspectCard(cardNum));
+
+         
+         //Test
+         /*
+         if(cardPlayed.equals("0"))
+            //myCardTable.pnlHumanHand.set
+            System.out.println("Card 0");
+         else if(cardPlayed.equals("1"))
+            System.out.println("Card 1");
+         else if(cardPlayed.equals("2"))
+            System.out.println("Card 2");
+         else if(cardPlayed.equals("3"))
+            System.out.println("Card 3");
+         else if(cardPlayed.equals("4"))
+            System.out.println("Card 4");
+         else if(cardPlayed.equals("5"))
+            System.out.println("Card 5");
+         else if(cardPlayed.equals("6"))
+            System.out.println("Card 6");
+         else
+            System.out.println("Error");
+        /
+      }
+   }
+*/
 /*-----------------------------
  * End of phase3 client (main)
  * ----------------------/
