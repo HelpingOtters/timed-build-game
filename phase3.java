@@ -1,5 +1,4 @@
 import java.awt.*;
-
 import javax.lang.model.util.ElementScanner6;
 import javax.swing.*;
 import javax.swing.border.*;
@@ -29,15 +28,16 @@ public class phase3 implements ActionListener
    static JLabel[] computerLabels = new JLabel[NUM_CARDS_PER_HAND];
    static JLabel[] humanLabels = new JLabel[NUM_CARDS_PER_HAND];  
    static JLabel[] playedCardLabels  = new JLabel[NUM_PLAYERS]; 
-   static JLabel[] playLabelText  = new JLabel[NUM_PLAYERS]; 
+   static JLabel[] playLabelText  = new JLabel[NUM_PLAYERS];
    static JButton cardButtons[] = new JButton[NUM_CARDS_PER_HAND];
+   static Card[] compWinnings;
+   static Card[] humanWinnings;
    static CardGameFramework LowCardGame;
-
+   static Icon tempIcon;
+   static CardTable myCardTable;
    
    public static void main(String[] args)
    {
-      Icon tempIcon;
-
       int numPacksPerDeck = 1;
       int numJokersPerPack = 4;
       int numUnusedCardsPerPack = 0;
@@ -55,7 +55,7 @@ public class phase3 implements ActionListener
       GUICard.loadCardIcons();
       
       // establish main frame in which program will run
-      CardTable myCardTable 
+      myCardTable 
          = new CardTable("CardTable", NUM_CARDS_PER_HAND, NUM_PLAYERS);
       myCardTable.setSize(800, 600);
       myCardTable.setLocationRelativeTo(null);
@@ -65,7 +65,7 @@ public class phase3 implements ActionListener
       myCardTable.setVisible(true);
       
       // CREATE LABELS ----------------------------------------------------
-      
+
       for (int card = 0; card < NUM_CARDS_PER_HAND; card++)
       {
          //back labels made for playing cards 
@@ -78,7 +78,7 @@ public class phase3 implements ActionListener
          cardButtons[card] = new JButton(tempIcon);
          cardButtons[card].setActionCommand(Integer.toString(card));
          //cardButtons[card].setSize(73,97);
-         cardButtons[card].addActionListener(this);
+         //cardButtons[card].addActionListener(this);
       }
       
       // ADD LABELS TO PANELS -----------------------------------------
@@ -86,10 +86,65 @@ public class phase3 implements ActionListener
       {
          // index label added to computer panel
          myCardTable.pnlComputerHand.add(computerLabels[card]);
-
+         
          // index label added to human panel
          myCardTable.pnlHumanHand.add(cardButtons[card]);
       }
+
+
+      // Test action listener Method //
+      //System.out.println("Pre sort: " + LowCardGame.getHand(0).toString());
+
+      // Sort the computer's hand, in order to get the lowest card
+      LowCardGame.getHand(0).sort();
+
+      Card[] cardInPlay = new Card[2];
+      System.out.println("Computer hand Pre: " + LowCardGame.getHand(0).toString());
+      System.out.println("Player hand Pre : " + LowCardGame.getHand(1).toString());
+
+      // Computer's card
+      cardInPlay[0] = LowCardGame.playCard(0, 0);
+      cardInPlay[1] = LowCardGame.playCard(1, 0);
+
+
+      System.out.println("Computer hand at Play: " + LowCardGame.getHand(0).toString());
+      System.out.println("Player hand at play: " + LowCardGame.getHand(1).toString());
+
+      // Display icon for Player
+      //Icon playerIcon = GUICard.getIcon(LowCardGame.getHand(1).inspectCard(0));
+      Icon playerIcon = GUICard.getIcon( cardInPlay[1]);
+      System.out.println("Player Card: " +  cardInPlay[1]);
+      playedCardLabels[1] = new JLabel("You", JLabel.CENTER);
+      playedCardLabels[1].setIcon(playerIcon);
+      playedCardLabels[1].setHorizontalTextPosition(JLabel.CENTER);
+      playedCardLabels[1].setVerticalTextPosition(JLabel.BOTTOM);
+      
+      // Dispay icon for computer 
+      Icon compIcon = GUICard.getIcon(cardInPlay[0]);
+      System.out.println("Computer Card: " + cardInPlay[0]);
+      playedCardLabels[0] = new JLabel("Computer", JLabel.CENTER);
+      playedCardLabels[0].setIcon(compIcon);
+      playedCardLabels[0].setHorizontalTextPosition(JLabel.CENTER);
+      playedCardLabels[0].setVerticalTextPosition(JLabel.BOTTOM);
+
+      myCardTable.pnlPlayArea.setLayout(new GridLayout());
+     
+      // add line to delay
+      myCardTable.pnlPlayArea.add(playedCardLabels[0]);
+      myCardTable.pnlPlayArea.add(playedCardLabels[1]);
+
+      
+      System.out.println("Computer's Card: " + cardInPlay[0].getValue());
+      System.out.println("Player's Card: " + cardInPlay[1].getValue());
+      if(cardInPlay[0].getValue() < cardInPlay[1].getValue())
+         System.out.println("Card 1 loses");
+      
+      LowCardGame.takeCard(0);
+      LowCardGame.takeCard(1);
+
+      System.out.println("Computer hand post: " + LowCardGame.getHand(0).toString());
+      System.out.println("Player hand post: " + LowCardGame.getHand(1).toString());
+
       /*
          myCardTable.pnlPlayArea.add(playedCardLabels[card]);
       */
@@ -101,8 +156,30 @@ public class phase3 implements ActionListener
    @Override
    public void actionPerformed(ActionEvent e) 
    {
-      // TODO Auto-generated method stub
          String cardPlayed = e.getActionCommand();
+
+         int cardNum = Integer.parseInt(cardPlayed);
+
+         Icon playerIcon = GUICard.getIcon(LowCardGame.getHand(1).inspectCard(cardNum));
+
+         LowCardGame.getHand(0).sort();
+         Icon compIcon = GUICard.getIcon(LowCardGame.getHand(0).inspectCard(0));
+
+         playedCardLabels[1] = new JLabel("You", JLabel.CENTER);
+         playedCardLabels[1].setIcon(playerIcon);
+         
+         playedCardLabels[0] = new JLabel("Computer", JLabel.CENTER);
+         playedCardLabels[0].setIcon(compIcon);
+
+
+         myCardTable.pnlPlayArea.add(playedCardLabels[1]);
+         // add line to delay
+
+         myCardTable.pnlPlayArea.add(playedCardLabels[0]);
+
+         //myCardTable.pnlPlayArea.add(cardButtons[cardNum]);
+         
+         /*
          if(cardPlayed.equals("0"))
             //myCardTable.pnlHumanHand.set
             System.out.println("Card 0");
@@ -120,7 +197,7 @@ public class phase3 implements ActionListener
             System.out.println("Card 6");
          else
             System.out.println("Error");
-
+         */
    }
 
 }
