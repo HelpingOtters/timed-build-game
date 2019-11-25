@@ -31,7 +31,7 @@ public class phase2
    
    public static void main(String[] args)
    {
-      int k;
+      int card;
       Icon tempIcon;
 
       //Icons loaded from GUICard 
@@ -48,7 +48,7 @@ public class phase2
       myCardTable.setVisible(true);
 
       // CREATE LABELS ----------------------------------------------------
-      for (int card = 0; card < NUM_CARDS_PER_HAND; card++)
+      for (card = 0; card < NUM_CARDS_PER_HAND; card++)
       {
          //back labels made for playing cards 
          computerLabels[card] = new JLabel(GUICard.getBackCardIcon());
@@ -59,7 +59,7 @@ public class phase2
       }
   
       // ADD LABELS TO PANELS -----------------------------------------
-      for (int card = 0; card < NUM_CARDS_PER_HAND; card++)
+      for (card = 0; card < NUM_CARDS_PER_HAND; card++)
       {
          //index label added to computer panel 
          myCardTable.pnlComputerHand.add(computerLabels[card]);
@@ -70,7 +70,7 @@ public class phase2
       
       // and two random cards in the play region (simulating a computer/hum ply)
       //code goes here ...
-      for (int card = 0; card < NUM_PLAYERS; card++)
+      for (card = 0; card < NUM_PLAYERS; card++)
       {
          //random card generated 
          tempIcon = GUICard.getIcon(randomCardGenerator());
@@ -90,10 +90,17 @@ public class phase2
     */
     static Card randomCardGenerator()
     {
-       Deck deck = new Deck();
-       Random randomGen = new Random();
-       return deck.inspectCard(randomGen.nextInt(deck.getNumCards()));
-    }
+      Random rnd = new Random();
+
+      // Setup Random Suit
+      Card.Suit rndSuit =
+         Card.Suit.values()[rnd.nextInt(Card.Suit.values().length)];
+
+      // Setup Random Value
+      char rndValue = Card.valuRanks[rnd.nextInt(Card.valuRanks.length)];
+
+      return new Card(rndValue, rndSuit);
+   }
 }
 /*-----------------------------
  * End of phase2 client (main)
@@ -126,8 +133,11 @@ public class phase2
     */
    public CardTable(String title, int numCardsPerHand, int numPlayers)
    {
+      //calls constructor 
+      super();
+
       //displays title on window 
-      super(title);
+      setTitle(title);
 
       //lays out the border 
       setLayout(new BorderLayout());
