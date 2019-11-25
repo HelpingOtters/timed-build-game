@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit;
  * 
  * 
  ***********************************************************************/
-public class phase3 implements ActionListener
+public class Phase3 implements ActionListener
 {
    static int NUM_CARDS_PER_HAND = 7;
    static int  NUM_PLAYERS = 2;
@@ -44,7 +44,7 @@ public class phase3 implements ActionListener
       Phase3 theGame = new Phase3();
    }
    
-   public phase3()
+   public Phase3()
    {
       int numPacksPerDeck = 1;
       int numJokersPerPack = 4;
