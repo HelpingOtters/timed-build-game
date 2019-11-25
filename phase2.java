@@ -133,8 +133,11 @@ public class phase2
     */
    public CardTable(String title, int numCardsPerHand, int numPlayers)
    {
+      //calls constructor 
+      super();
+
       //displays title on window 
-      super(title);
+      setTitle(title);
 
       //lays out the border 
       setLayout(new BorderLayout());
