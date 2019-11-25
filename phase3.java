@@ -5,6 +5,7 @@ import javax.swing.border.*;
 import java.util.Random;
 import javax.swing.border.TitledBorder;
 import java.awt.event.*;
+import java.util.concurrent.TimeUnit;
 
 /************************************************************************
  * Low-Card Game Logic
@@ -30,11 +31,13 @@ public class phase3 implements ActionListener
    static JLabel[] playedCardLabels  = new JLabel[NUM_PLAYERS]; 
    static JLabel[] playLabelText  = new JLabel[NUM_PLAYERS];
    static JButton cardButtons[] = new JButton[NUM_CARDS_PER_HAND];
-   static Card[] compWinnings;
-   static Card[] humanWinnings;
+   static Card[] compWinnings = new Card[57]; //fix size and instantiate in main
+   static Card[] humanWinnings = new Card[57]; //fix size instantiate in main
    static CardGameFramework LowCardGame;
    static Icon tempIcon;
    static CardTable myCardTable;
+   static int computerWinningsCounter = 0;
+   static int humanWinningsCounter = 0;
    
    public static void main(String[] args)
    {
@@ -92,26 +95,25 @@ public class phase3 implements ActionListener
       }
 
 
-      // Test action listener Method //
+      /************* Test action listener Method **************/
+      
       //System.out.println("Pre sort: " + LowCardGame.getHand(0).toString());
 
       // Sort the computer's hand, in order to get the lowest card
       LowCardGame.getHand(0).sort();
 
-      Card[] cardInPlay = new Card[2];
       System.out.println("Computer hand Pre: " + LowCardGame.getHand(0).toString());
       System.out.println("Player hand Pre : " + LowCardGame.getHand(1).toString());
 
-      // Computer's card
+      // Add playing cards into an array 
+      Card[] cardInPlay = new Card[2];
       cardInPlay[0] = LowCardGame.playCard(0, 0);
       cardInPlay[1] = LowCardGame.playCard(1, 0);
-
 
       System.out.println("Computer hand at Play: " + LowCardGame.getHand(0).toString());
       System.out.println("Player hand at play: " + LowCardGame.getHand(1).toString());
 
-      // Display icon for Player
-      //Icon playerIcon = GUICard.getIcon(LowCardGame.getHand(1).inspectCard(0));
+      // Display icon for player
       Icon playerIcon = GUICard.getIcon( cardInPlay[1]);
       System.out.println("Player Card: " +  cardInPlay[1]);
       playedCardLabels[1] = new JLabel("You", JLabel.CENTER);
@@ -127,17 +129,45 @@ public class phase3 implements ActionListener
       playedCardLabels[0].setHorizontalTextPosition(JLabel.CENTER);
       playedCardLabels[0].setVerticalTextPosition(JLabel.BOTTOM);
 
+      // Set the play area layout
       myCardTable.pnlPlayArea.setLayout(new GridLayout());
      
       // add line to delay
       myCardTable.pnlPlayArea.add(playedCardLabels[0]);
+      
       myCardTable.pnlPlayArea.add(playedCardLabels[1]);
 
-      
       System.out.println("Computer's Card: " + cardInPlay[0].getValue());
       System.out.println("Player's Card: " + cardInPlay[1].getValue());
+
+      // Check who won this round 
       if(cardInPlay[0].getValue() < cardInPlay[1].getValue())
-         System.out.println("Card 1 loses");
+      {
+         // Computer wins this round
+         compWinnings[computerWinningsCounter] = cardInPlay[0];
+         compWinnings[computerWinningsCounter] = cardInPlay[1];
+         computerWinningsCounter += 2;
+      }
+      else if(cardInPlay[0].getValue() > cardInPlay[1].getValue())
+      {
+         // Human wins this round
+         humanWinnings[humanWinningsCounter] = cardInPlay[0];
+         humanWinnings[humanWinningsCounter] = cardInPlay[1];
+         humanWinningsCounter += 2;
+      }   
+      else
+      {
+         // If there is a tie
+         // lets think about this later
+      }
+      
+      //myCardTable.pnlPlayArea.removeAll();
+      myCardTable.pnlPlayArea.remove(playedCardLabels[0]);
+      myCardTable.pnlPlayArea.remove(playedCardLabels[1]);
+      
+      System.out.println("I'm done!");
+
+      
       
       LowCardGame.takeCard(0);
       LowCardGame.takeCard(1);
@@ -145,13 +175,20 @@ public class phase3 implements ActionListener
       System.out.println("Computer hand post: " + LowCardGame.getHand(0).toString());
       System.out.println("Player hand post: " + LowCardGame.getHand(1).toString());
 
-      /*
-         myCardTable.pnlPlayArea.add(playedCardLabels[card]);
-      */
+      /************************ END TEST ************************/
+      
+      
       // show everything to the user
       myCardTable.setVisible(true);
    }
-   
+   public void delayUI() {
+      try {
+         TimeUnit.SECONDS.sleep(2);
+      } catch (InterruptedException e) {
+         // TODO Auto-generated catch block
+         e.printStackTrace();
+      }
+   }
 
    @Override
    public void actionPerformed(ActionEvent e) 
