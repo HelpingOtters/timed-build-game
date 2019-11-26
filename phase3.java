@@ -14,7 +14,7 @@ import java.awt.event.*;
  * with the computer. 
  * 
  ***********************************************************************/
-public class phase3 implements ActionListener
+public class Phase3 implements ActionListener
 {
    static int NUM_CARDS_PER_HAND = 7;
    static int  NUM_PLAYERS = 2;
@@ -89,7 +89,7 @@ public class phase3 implements ActionListener
          cardButtons[card] = new JButton(tempIcon);
          cardButtons[card].setSize(73,97);
          cardButtons[card].setActionCommand(Integer.toString(card));
-         cardButtons[card].addActionListener(new phase3());
+         cardButtons[card].addActionListener(new Phase3());
          
          // add computer's card labels to the table
          myCardTable.pnlComputerHand.add(computerLabels[card]);
