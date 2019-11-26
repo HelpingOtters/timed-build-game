@@ -271,7 +271,7 @@ class Phase3 implements ActionListener
 }
 
 /*-----------------------------
- * End of phase3 client (main)
+ * End of Phase3 client (main)
  * ----------------------/
 
 /****************************************
