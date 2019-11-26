@@ -5,30 +5,24 @@ import java.awt.*;
  * Phase 1
  * @author Lindsey Reynolds
  * @version November 26, 2019
+ * Description: Class to retrieve card icons from .gif files and 
+ * display them. 
  *    
  ************************************************************/
 
-class Phase1
-{
-   // static for the 57 icons and their corresponding labels
-   // normally we would not have a separate label for each card, but
-   // if we want to display all at once using labels, we need to.
-   
+public class Phase1
+{  
    static final int NUM_CARD_IMAGES = 57; // 52 + 4 jokers + 1 back-of-card image
-   static String[] values = 
-      {"A", "2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K", "X"};
-   static String[] suits = {"C", "D","H", "S"};
    static Icon[] icon = new ImageIcon[NUM_CARD_IMAGES];
       
    static void loadCardIcons()
    {
-      // build the file names ("AC.gif", "2C.gif", "3C.gif", "TC.gif", etc.)
-      // in a SHORT loop.  For each file name, read it in and use it to
-      // instantiate each of the 57 Icons in the icon[] array.
+      String[] values = 
+      {"A", "2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K", "X"};
+      String[] suits = {"C", "D","H", "S"};
       String imageName = "";
       String fileString = "";
       int arrayIndex = 0;
-
 
       // loop through number of values, 0 - 13, which will be converted to card values
       for(int valueIndex = 0; valueIndex < values.length; valueIndex++)
