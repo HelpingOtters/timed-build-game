@@ -1,25 +1,17 @@
 import java.awt.*;
-import javax.lang.model.util.ElementScanner6;
 import javax.swing.*;
-import javax.swing.border.*;
 import java.util.Random;
 import javax.swing.border.TitledBorder;
 import java.awt.event.*;
-import java.util.concurrent.TimeUnit;
 
 /************************************************************************
  * Low-Card Game Logic
  * 
- * @todo         #create action listeners.
- *               #place low card in winning[] array.
- *               #add JLabels.
- *               #decide how to select a card from your hand (button?).
- *               #decide how the computer plays. 
- *                   -intentionally lose? always win?
- *               #decide how to update cards or the computer's cards to                reflect one fewer card every round so that 
- *                   reflect one fewer card every round 
- *                   so that hands get smaller.
- * 
+ * @author Dan Sedano 
+ * @author Lindsey Reynols
+ * @version 11/25/19
+ * Description: Program that allows the user to play the game "Low-Card" 
+ * with the computer. 
  * 
  ***********************************************************************/
 public class phase3 implements ActionListener
@@ -42,15 +34,8 @@ public class phase3 implements ActionListener
    static int humanWinningsCounter = 0;
    static final int HUMAN_INDEX = 1;
    static final int COMP_INDEX = 0;
-
    
    public static void main(String[] args)
-   {
-      phase3 gamePlay = new phase3();
-      
-   }
-
-   public phase3()
    {
       int numPacksPerDeck = 1;
       int numJokersPerPack = 4;
@@ -87,7 +72,7 @@ public class phase3 implements ActionListener
    /* 
     * Helper method to create all the card labels on the game table
     */
-   private void createLabels()
+   private static void createLabels()
    {
       // Create the labels
       for (int card = 0; card < NUM_CARDS_PER_HAND; card++)
@@ -102,7 +87,7 @@ public class phase3 implements ActionListener
          cardButtons[card] = new JButton(tempIcon);
          cardButtons[card].setSize(73,97);
          cardButtons[card].setActionCommand(Integer.toString(card));
-         cardButtons[card].addActionListener(this);
+         cardButtons[card].addActionListener(new phase3());
          
          // add computer's card labels to the table
          myCardTable.pnlComputerHand.add(computerLabels[card]);
@@ -114,6 +99,7 @@ public class phase3 implements ActionListener
 
    /**
     * Action event that is fired every time the user clicks a card button
+    *@param ActionEvent
     */
    @Override
    public void actionPerformed(ActionEvent e) 
@@ -142,6 +128,10 @@ public class phase3 implements ActionListener
          endGame();
    }
 
+   /**
+    * Gets the playing card from each player and adds it to the card table.
+    * @param int the index of the card being played
+    */
    private void putCardsOnTable(int cardNum)
    {
       // Each player plays a card
@@ -174,32 +164,37 @@ public class phase3 implements ActionListener
       myCardTable.pnlPlayArea.add(cardsPanel, BorderLayout.NORTH);
    }
 
+   /**
+    * Checks the final score of the game and displays the
+    * the approriate message.
+    */
    private void endGame()
    {
-      //myCardTable.add(endMessage);
       String compWinner = "Computers win! " + computerWinningsCounter + " vs " + humanWinningsCounter;
       String humanWinner = "Humans win! " + humanWinningsCounter + " vs " + computerWinningsCounter;
       String tie = humanWinningsCounter + " vs " + computerWinningsCounter;
-
+      //computer wins senario
       if(computerWinningsCounter > humanWinningsCounter)
       {
-         //JOptionPane.showMessageDialog(null,new ImageIcon("gifs/TIE.gif",tie),"IT'S A TIE", JOptionPane.PLAIN_MESSAGE);
-         JOptionPane.showMessageDialog(null,new JLabel(compWinner,JLabel.CENTER),"01010111 01001001 01001110", JOptionPane.PLAIN_MESSAGE);
-         JOptionPane.showMessageDialog(null,new ImageIcon("gifs/TIE.png"),"IT'S A TIE", JOptionPane.PLAIN_MESSAGE);
-         //myCardTable.removeAll();
-         //myCardTable.add(new JLabel(new ImageIcon("gifs/TIE.gif")));
+         JOptionPane.showMessageDialog(null,new JLabel(compWinner,JLabel.CENTER),"01010111 01001001 01001110", JOptionPane.PLAIN_MESSAGE);        
       }
+      //human wins senario
       else if (humanWinningsCounter > computerWinningsCounter)
       {
-         JOptionPane.showMessageDialog(null,new JLabel(humanWinner,JLabel.CENTER),"HUMANS RULE! ROBOTS DROOL!", JOptionPane.PLAIN_MESSAGE);
-         JOptionPane.showMessageDialog(null,new ImageIcon("gifs/TIE.png"),"IT'S A TIE", JOptionPane.PLAIN_MESSAGE);
-         
+         JOptionPane.showMessageDialog(null,new JLabel(humanWinner,JLabel.CENTER),"HUMANS RULE! ROBOTS DROOL!", JOptionPane.PLAIN_MESSAGE);        
       }
+      //tie senario
       else
          JOptionPane.showMessageDialog(null,new ImageIcon("gifs/TIE.gif"),"IT'S A TIE", JOptionPane.PLAIN_MESSAGE);
 
    }
-
+   
+   /**
+    * Determines the winner of the round and displays
+    * the appropriate message.
+    * @param compCard
+    * @param humanCard
+    */
    private void determineWinner(Card compCard, Card humanCard)
    {
       JLabel winnerMessage = new JLabel("", JLabel.CENTER);
@@ -230,6 +225,9 @@ public class phase3 implements ActionListener
       myCardTable.pnlPlayArea.add(winnerMessage, BorderLayout.CENTER);
    }
 
+   /**
+    * Updates the card buttons for the player panel.
+    */
    private void updateButtons()
    {
       myCardTable.pnlHumanHand.removeAll();
