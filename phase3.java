@@ -41,6 +41,11 @@ public class phase3 implements ActionListener
    
    public static void main(String[] args)
    {
+      phase3 gamePlay = new phase3();
+   }
+
+   public phase3()
+   {
       int numPacksPerDeck = 1;
       int numJokersPerPack = 4;
       int numUnusedCardsPerPack = 0;
@@ -51,7 +56,7 @@ public class phase3 implements ActionListener
          numUnusedCardsPerPack, unusedCardsPerPack,
          NUM_PLAYERS, NUM_CARDS_PER_HAND
          );
-      //System.out.println(LowCardGame.deal());
+
       LowCardGame.deal();
     
       //Icons loaded from GUICard 
@@ -67,8 +72,19 @@ public class phase3 implements ActionListener
       // show everything to the user
       myCardTable.setVisible(true);
       
-      // CREATE LABELS ----------------------------------------------------
-      Game game = new Game();
+      // Create the card labels and add them into the GUI
+      createLabels();
+
+      // show everything to the user
+      myCardTable.setVisible(true);
+   }
+
+   /* 
+    * Helper method to create all the card labels on the game table
+    */
+   private void createLabels()
+   {
+      // Create the labels
       for (int card = 0; card < NUM_CARDS_PER_HAND; card++)
       {
          //back labels made for playing cards 
@@ -80,11 +96,10 @@ public class phase3 implements ActionListener
          //humanLabels[card] = new JLabel(tempIcon);
          cardButtons[card] = new JButton(tempIcon);
          cardButtons[card].setActionCommand(Integer.toString(card));
-         //cardButtons[card].setSize(73,97);
-         cardButtons[card].addActionListener(game);
+         cardButtons[card].addActionListener(this);
       }
       
-      // ADD LABELS TO PANELS -----------------------------------------
+      // Add the labels to top and bottom panels
       for (int card = 0; card < NUM_CARDS_PER_HAND; card++)
       {
          // index label added to computer panel
@@ -93,8 +108,56 @@ public class phase3 implements ActionListener
          // index label added to human panel
          myCardTable.pnlHumanHand.add(cardButtons[card]);
       }
+   }
 
+   @Override
+   public void actionPerformed(ActionEvent e) 
+   {
+      // Get the card that the user played
+      String cardPlayed = e.getActionCommand();
+      int cardNum = Integer.parseInt(cardPlayed);
+           
+      // Sort the computer's hand to get the lowest card     
+      LowCardGame.getHand(0).sort();
 
+      // Get each player's card icons to be displayed in the playing area
+      Icon playerIcon = GUICard.getIcon(LowCardGame.getHand(1).inspectCard(cardNum));
+      Icon compIcon = GUICard.getIcon(LowCardGame.getHand(0).inspectCard(0));
+
+      // Create each player's label to put on the playing area
+      playedCardLabels[1] = new JLabel("You", JLabel.CENTER);   
+      playedCardLabels[0] = new JLabel("Computer", JLabel.CENTER);
+      playedCardLabels[1].setIcon(playerIcon);   
+      playedCardLabels[0].setIcon(compIcon);
+
+      // Make sure text is centered
+      playedCardLabels[1].setHorizontalTextPosition(JLabel.CENTER);
+      playedCardLabels[1].setVerticalTextPosition(JLabel.BOTTOM);
+      playedCardLabels[0].setHorizontalTextPosition(JLabel.CENTER);
+      playedCardLabels[0].setVerticalTextPosition(JLabel.BOTTOM);
+      
+      // Set the play area layout
+      myCardTable.pnlPlayArea.setLayout(new GridLayout());
+      
+      // Remove old plays and add current plays
+      myCardTable.pnlPlayArea.removeAll();
+      myCardTable.pnlPlayArea.add(playedCardLabels[1]);
+      /* add line to delay computers play */
+      myCardTable.pnlPlayArea.add(playedCardLabels[0]);
+      
+      // Remove the card from the player panel
+      myCardTable.pnlHumanHand.remove(cardButtons[cardNum]);
+      myCardTable.pnlHumanHand.repaint();
+      
+      // Remove a label from the computer area
+      myCardTable.pnlComputerHand.remove(computerLabels[cardNum]);
+      myCardTable.pnlComputerHand.repaint();
+      
+      myCardTable.setVisible(true);
+   }
+
+   private void testActionListener()
+   {
       /************* Test action listener Method **************/
       
       //System.out.println("Pre sort: " + LowCardGame.getHand(0).toString());
@@ -162,13 +225,11 @@ public class phase3 implements ActionListener
       }
       
       //myCardTable.pnlPlayArea.removeAll();
-      myCardTable.pnlPlayArea.remove(playedCardLabels[0]);
-      myCardTable.pnlPlayArea.remove(playedCardLabels[1]);
+      //myCardTable.pnlPlayArea.remove(playedCardLabels[0]);
+      //myCardTable.pnlPlayArea.remove(playedCardLabels[1]);
       
       System.out.println("I'm done!");
 
-      
-      
       LowCardGame.takeCard(0);
       LowCardGame.takeCard(1);
 
@@ -176,68 +237,7 @@ public class phase3 implements ActionListener
       System.out.println("Player hand post: " + LowCardGame.getHand(1).toString());
 
       /************************ END TEST ************************/
-      
-      
-      // show everything to the user
-      myCardTable.setVisible(true);
    }
-   public void delayUI() {
-      try {
-         TimeUnit.SECONDS.sleep(2);
-      } catch (InterruptedException e) {
-         // TODO Auto-generated catch block
-         e.printStackTrace();
-      }
-   }
-/*
-   @Override
-   public void actionPerformed(ActionEvent e) 
-   {
-         String cardPlayed = e.getActionCommand();
-
-         int cardNum = Integer.parseInt(cardPlayed);
-
-         Icon playerIcon = GUICard.getIcon(LowCardGame.getHand(1).inspectCard(cardNum));
-
-         LowCardGame.getHand(0).sort();
-         Icon compIcon = GUICard.getIcon(LowCardGame.getHand(0).inspectCard(0));
-
-         playedCardLabels[1] = new JLabel("You", JLabel.CENTER);
-         playedCardLabels[1].setIcon(playerIcon);
-         
-         playedCardLabels[0] = new JLabel("Computer", JLabel.CENTER);
-         playedCardLabels[0].setIcon(compIcon);
-
-
-         myCardTable.pnlPlayArea.add(playedCardLabels[1]);
-         // add line to delay
-
-         myCardTable.pnlPlayArea.add(playedCardLabels[0]);
-
-         //myCardTable.pnlPlayArea.add(cardButtons[cardNum]);
-         
-         /*
-         if(cardPlayed.equals("0"))
-            //myCardTable.pnlHumanHand.set
-            System.out.println("Card 0");
-         else if(cardPlayed.equals("1"))
-            System.out.println("Card 1");
-         else if(cardPlayed.equals("2"))
-            System.out.println("Card 2");
-         else if(cardPlayed.equals("3"))
-            System.out.println("Card 3");
-         else if(cardPlayed.equals("4"))
-            System.out.println("Card 4");
-         else if(cardPlayed.equals("5"))
-            System.out.println("Card 5");
-         else if(cardPlayed.equals("6"))
-            System.out.println("Card 6");
-         else
-            System.out.println("Error");
-         *
-   }
-   */
-
 }
 
 class Game implements ActionListener
@@ -271,9 +271,12 @@ class Game implements ActionListener
             System.out.println("Card 6");
          else
             System.out.println("Error");
-        
+         */
       }
    }
+   
+
+   
 
 /*-----------------------------
  * End of phase3 client (main)
