@@ -812,7 +812,7 @@ class Deck
    }
 
    /**
-    * Adds the card to the top of the deck based on the number of packs
+    * Adds the card to the top of the deck if there aren't too many instances
     * 
     * @param card the card to be added
     * @return false if the card is already there or no rooms, otherwise return
@@ -824,25 +824,28 @@ class Deck
       {
          return false; // no room for the card
       }
-
+      
+      int ctr = 0; // counter for the instances of the card
       for (int i = 0; i < topCard; i++)
       {
          if (cards[i].equals(card))
          {
-            return false; // the card is there already
+            ctr++;
          }
       }
 
-      for (int n = 0; n < numPacks; n++)
+      if(ctr < numPacks)
       {
-         cards[topCard] = card; // add the card for each pack
+         // number of instances not exceeding the numPacks
+         cards[topCard] = card; // add the card to the deck
          topCard++;
+         return true;
       }
-      return true;
+      return false;
    }
 
    /**
-    * Remove all the instances of a specific card from the deck
+    * Remove one instance of a specific card from the deck
     * 
     * @param card the specific card
     * @return true if success, otherwise false
@@ -850,27 +853,18 @@ class Deck
    public boolean removeCard(Card card)
    {
 
-      boolean found = false; // card may not be in the deck
-      int i = 0;
-
-      // remove all the instances of the card
-      while (i < topCard)
+      // remove only one instance of the card
+      for (int i = 0; i < topCard; i++)
       {
          if (cards[i].equals(card))
          {
-            // Replace the card with the top card of the deck
-            // Don't increment i since we need to check the replacement card
             cards[i] = cards[topCard - 1];
             cards[topCard - 1] = null;
             topCard--;
-            found = true;
-         }
-         else
-         {
-            i++;
+            return true;
          }
       }
-      return found;
+      return false;
    }
 
    public void sort()
