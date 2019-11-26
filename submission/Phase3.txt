@@ -14,7 +14,7 @@ import java.awt.event.*;
  * with the computer. 
  * 
  ***********************************************************************/
-class Phase3 implements ActionListener
+public class Phase3 implements ActionListener
 {
    static int NUM_CARDS_PER_HAND = 7;
    static int  NUM_PLAYERS = 2;
@@ -127,13 +127,8 @@ class Phase3 implements ActionListener
 
       determineWinner(cardsInPlay[COMP_INDEX], cardsInPlay[HUMAN_INDEX]);
 
-      // Each player takes a new card
-      //LowCardGame.takeCard(HUMAN_INDEX);
-      //LowCardGame.takeCard(COMP_INDEX);
-
       updateButtons();
       
-      //myCardTable.setVisible(true);
 
       // Check if the game is over 
       if(LowCardGame.getHand(HUMAN_INDEX).getNumCards() == 0)
@@ -191,7 +186,7 @@ class Phase3 implements ActionListener
       String compWinner = "Computers win! " + computerWinningsCounter + " vs " + humanWinningsCounter;
       String humanWinner = "Humans win! " + humanWinningsCounter + " vs " + computerWinningsCounter;
       String tie = humanWinningsCounter + " vs " + computerWinningsCounter;
-      //computer wins senario
+      //computer wins scenario
       if(computerWinningsCounter > humanWinningsCounter)
       {
          myCardTable.pnlPlayArea.removeAll();
@@ -199,7 +194,7 @@ class Phase3 implements ActionListener
          JOptionPane.showMessageDialog(null,new JLabel(compWinner,JLabel.CENTER),"01010111 01001001 01001110", JOptionPane.PLAIN_MESSAGE);  
          System.exit(0);       
       }
-      //human wins senario
+      //human wins scenario
       else if (humanWinningsCounter > computerWinningsCounter)
       {
          myCardTable.pnlPlayArea.removeAll();
@@ -207,7 +202,7 @@ class Phase3 implements ActionListener
          JOptionPane.showMessageDialog(null,new JLabel(humanWinner,JLabel.CENTER),"HUMANS RULE! ROBOTS DROOL!", JOptionPane.PLAIN_MESSAGE); 
          System.exit(0);       
       }
-      //tie senario. If we are only playing cards in hand this should never happen
+      //tie scenario. If we are only playing cards in hand this should never happen
       else
       {
          //JOptionPane.showMessageDialog(null,new ImageIcon("gifs/TIE.gif"),"IT'S A TIE", JOptionPane.PLAIN_MESSAGE);
@@ -294,15 +289,15 @@ class Phase3 implements ActionListener
       myCardTable.pnlHumanHand.setVisible(true);
    }
 }
-
 /*-----------------------------
  * End of Phase3 client (main)
- * ----------------------/
+ * ---------------------------/
 
 /****************************************
  * CardGameFrameWork class
  *****************************************/
-class CardGameFramework {
+class CardGameFramework 
+{
    private static final int MAX_PLAYERS = 50;
 
    private int numPlayers;
@@ -356,11 +351,13 @@ class CardGameFramework {
    }
 
    // constructor overload/default for game like bridge
-   public CardGameFramework() {
+   public CardGameFramework() 
+   {
       this(1, 0, 0, null, 4, 13);
    }
 
-   public Hand getHand(int k) {
+   public Hand getHand(int k) 
+   {
       // hands start from 0 like arrays
 
       // on error return automatic empty hand
@@ -370,15 +367,18 @@ class CardGameFramework {
       return hand[k];
    }
 
-   public Card getCardFromDeck() {
+   public Card getCardFromDeck() 
+   {
       return deck.dealCard();
    }
 
-   public int getNumCardsRemainingInDeck() {
+   public int getNumCardsRemainingInDeck() 
+   {
       return deck.getNumCards();
    }
 
-   public void newGame() {
+   public void newGame() 
+   {
       int k, j;
 
       // clear the hands
@@ -401,7 +401,8 @@ class CardGameFramework {
       deck.shuffle();
    }
 
-   public boolean deal() {
+   public boolean deal() 
+   {
       // returns false if not enough cards, but deals what it can
       int k, j;
       boolean enoughCards;
@@ -411,7 +412,8 @@ class CardGameFramework {
          hand[j].resetHand();
 
       enoughCards = true;
-      for (k = 0; k < numCardsPerHand && enoughCards; k++) {
+      for (k = 0; k < numCardsPerHand && enoughCards; k++) 
+      {
          for (j = 0; j < numPlayers; j++)
             if (deck.getNumCards() > 0)
                hand[j].takeCard(deck.dealCard());
@@ -431,9 +433,11 @@ class CardGameFramework {
          hand[k].sort();
    }
 
-   Card playCard(int playerIndex, int cardIndex) {
+   Card playCard(int playerIndex, int cardIndex) 
+   {
       // returns bad card if either argument is bad
-      if (playerIndex < 0 || playerIndex > numPlayers - 1 || cardIndex < 0 || cardIndex > numCardsPerHand - 1) {
+      if (playerIndex < 0 || playerIndex > numPlayers - 1 || cardIndex < 0 || cardIndex > numCardsPerHand - 1) 
+      {
          // Creates a card that does not work
          return new Card('M', Card.Suit.SPADES);
       }
@@ -443,7 +447,8 @@ class CardGameFramework {
 
    }
 
-   boolean takeCard(int playerIndex) {
+   boolean takeCard(int playerIndex) 
+   {
       // returns false if either argument is bad
       if (playerIndex < 0 || playerIndex > numPlayers - 1)
          return false;
@@ -482,7 +487,8 @@ class CardTable extends JFrame
     * @param numCardsPerHand
     * @param numPlayers
     */
-   public CardTable(String title, int numCardsPerHand, int numPlayers) {
+   public CardTable(String title, int numCardsPerHand, int numPlayers) 
+   {
       // displays title on window
       super(title);
 
@@ -519,11 +525,13 @@ class CardTable extends JFrame
    }
 
    // accessors
-   public int getNumCardsPerHand() {
+   public int getNumCardsPerHand() 
+   {
       return numCardsPerHand;
    }
 
-   public int getNumPlayers() {
+   public int getNumPlayers() 
+   {
       return numPlayers;
    }
 }
@@ -540,7 +548,8 @@ class CardTable extends JFrame
  * usage:        manages the reading and building of the card
  *               image Icons.
  *****************************************************************/
-class GUICard {
+class GUICard 
+{
    // members to facilitate GUICard class
    private static Icon[][] iconCards = new ImageIcon[14][4];
    private static Icon iconBack;
@@ -552,14 +561,17 @@ class GUICard {
    /**
     * generates the image icon array from files
     */
-   static void loadCardIcons() {
+   static void loadCardIcons() 
+   {
       if (iconsLoaded)
          return;
 
       // generates file names of icon and adds to Icon's array
       String filename = "";
-      for (int i = 0; i < Card.valuRanks.length; ++i) {
-         for (int j = 0; j < cardSuits.length; ++j) {
+      for (int i = 0; i < Card.valuRanks.length; ++i) 
+      {
+         for (int j = 0; j < cardSuits.length; ++j) 
+         {
             filename = "images/" + Card.valuRanks[i] + cardSuits[j] + ".gif";
             iconCards[i][j] = new ImageIcon(filename);
          }
@@ -570,19 +582,22 @@ class GUICard {
    }
 
    // returns back icon for back of card
-   public static Icon getBackCardIcon() {
+   public static Icon getBackCardIcon() 
+   {
       loadCardIcons();
       return iconBack;
    }
 
    // returns specific icon
-   public static Icon getIcon(Card card) {
+   public static Icon getIcon(Card card) 
+   {
       loadCardIcons();
       return iconCards[valueAsInt(card)][suitAsInt(card)];
    }
 
    // index of card value returned
-   private static int valueAsInt(Card card) {
+   private static int valueAsInt(Card card) 
+   {
       int i = 0;
       while (card.getValue() != Card.valuRanks[i])
          ++i;
@@ -591,7 +606,8 @@ class GUICard {
    }
 
    // returns index of card suit
-   private static int suitAsInt(Card card) {
+   private static int suitAsInt(Card card) 
+   {
       int i;
       Card.Suit suit = card.getSuit();
       Card.Suit[] allSuits = Card.Suit.values();
@@ -616,8 +632,10 @@ class GUICard {
  * Card
  * imported Card class 
  ***************************************************************/
-class Card {
-   public enum Suit {
+class Card 
+{
+   public enum Suit 
+   {
       CLUBS, DIAMONDS, HEARTS, SPADES
    };
 
@@ -635,14 +653,16 @@ class Card {
     * @param value
     * @param suit
     */
-   public Card(char value, Suit suit) {
+   public Card(char value, Suit suit) 
+   {
       set(value, suit);
    }
 
    /**
     * Overloaded constructor
     */
-   public Card() {
+   public Card() 
+   {
       this('A', Suit.SPADES);
    }
 
@@ -651,8 +671,10 @@ class Card {
     * 
     * @param otherCard
     */
-   public Card(Card otherCard) {
-      if (otherCard == null) {
+   public Card(Card otherCard) 
+   {
+      if (otherCard == null) 
+      {
          System.out.println("Fatal Error!");
          System.exit(0);
       }
@@ -660,21 +682,26 @@ class Card {
    }
 
    // Accessors
-   public Suit getSuit() {
+   public Suit getSuit() 
+   {
       return suit;
    }
 
-   public char getValue() {
+   public char getValue() 
+   {
       return value;
    }
 
-   public boolean getErrorFlag() {
+   public boolean getErrorFlag() 
+   {
       return errorFlag;
    }
 
    // Mutators
-   public boolean set(char value, Suit suit) {
-      if (isValid(value, suit)) {
+   public boolean set(char value, Suit suit) 
+   {
+      if (isValid(value, suit)) 
+      {
          this.value = value;
          this.suit = suit;
          errorFlag = false;
@@ -685,7 +712,8 @@ class Card {
    }
 
    // Valid card data returned
-   public String toString() {
+   public String toString() 
+   {
       if (errorFlag)
          return "[Card Not Valid]";
       return value + " of " + suit;
@@ -693,12 +721,14 @@ class Card {
    }
 
    // Returns true if all field members are identical, false otherwise
-   public boolean equals(Card card) {
+   public boolean equals(Card card) 
+   {
       if (card == null)
          return false;
 
       // comparing member values
-      if (this.value == card.value) {
+      if (this.value == card.value) 
+      {
          if (this.suit == card.suit)
             return true;
       }
@@ -706,9 +736,11 @@ class Card {
    }
 
    // Determine validity for the value
-   private boolean isValid(char value, Suit suit) {
+   private boolean isValid(char value, Suit suit) 
+   {
       // checks if value is in the field of valid values
-      for (int i = 0; i < valuRanks.length; ++i) {
+      for (int i = 0; i < valuRanks.length; ++i) 
+      {
          if (value == valuRanks[i])
             return true;
       }
@@ -716,10 +748,14 @@ class Card {
       return false;
    }
 
-   public static void arraySort(Card[] cArray, int arraySize) {
-      for (int i = 0; i < arraySize - 1; i++) {
-         for (int j = 0; j < arraySize - i - 1; j++) {
-            if (cardAsInt(cArray[j]) > cardAsInt(cArray[j + 1])) {
+   public static void arraySort(Card[] cArray, int arraySize) 
+   {
+      for (int i = 0; i < arraySize - 1; i++) 
+      {
+         for (int j = 0; j < arraySize - i - 1; j++) 
+         {
+            if (cardAsInt(cArray[j]) > cardAsInt(cArray[j + 1])) 
+            {
                Card temp = cArray[j];
                cArray[j] = cArray[j + 1];
                cArray[j + 1] = temp;
@@ -734,9 +770,12 @@ class Card {
     * @param card
     * @return -1 if the value is not valid
     */
-   public static int valueAsInt(Card card) {
-      for (int i = 0; i < valuRanks.length; i++) {
-         if (valuRanks[i] == card.getValue()) {
+   public static int valueAsInt(Card card) 
+   {
+      for (int i = 0; i < valuRanks.length; i++) 
+      {
+         if (valuRanks[i] == card.getValue()) 
+         {
             return i;
          }
       }
@@ -750,7 +789,8 @@ class Card {
     * @param card
     * @return an integer
     */
-   public static int suitAsInt(Card card) {
+   public static int suitAsInt(Card card) 
+   {
       return card.getSuit().ordinal();
    }
 
@@ -760,7 +800,8 @@ class Card {
     * @param card
     * @return an integer for the card
     */
-   public static int cardAsInt(Card card) {
+   public static int cardAsInt(Card card) 
+   {
       int total = Card.valueAsInt(card) * 4 + Card.suitAsInt(card);
       return total;
    }
@@ -775,7 +816,8 @@ class Card {
  * Hand 
  * imported Hand class 
  ***************************************************************/
-class Hand {
+class Hand 
+{
    // a hand can only have 52 cards maximum
    public static final int MAX_CARDS = CardTable.MAX_CARDS_PER_HAND;
 
@@ -783,7 +825,8 @@ class Hand {
    private int numCards;
 
    // Constructor
-   public Hand() {
+   public Hand() 
+   {
       myCards = new Card[MAX_CARDS];
       numCards = 0;
    }
@@ -791,7 +834,8 @@ class Hand {
    /**
     * resets hand
     */
-   public void resetHand() {
+   public void resetHand() 
+   {
       numCards = 0;
    }
 
@@ -801,8 +845,10 @@ class Hand {
     * @param card
     * @return boolean
     */
-   public boolean takeCard(Card card) {
-      if (numCards < MAX_CARDS && card != null && !card.getErrorFlag()) {
+   public boolean takeCard(Card card) 
+   {
+      if (numCards < MAX_CARDS && card != null && !card.getErrorFlag()) 
+      {
          Card tempCard = new Card(card);
          myCards[numCards] = tempCard;
          numCards++;
@@ -812,12 +858,15 @@ class Hand {
    }
 
    // stringifies the hand
-   public String toString() {
+   public String toString() 
+   {
       String myHand = "";
-      if (numCards > 0) {
+      if (numCards > 0) 
+      {
 
          myHand += myCards[0];
-         for (int i = 1; i < numCards; i++) {
+         for (int i = 1; i < numCards; i++) 
+         {
             myHand += " , " + myCards[i];
          }
 
@@ -826,12 +875,14 @@ class Hand {
    }
 
    // Accessor
-   public int getNumCards() {
+   public int getNumCards() 
+   {
       return numCards;
    }
 
    // Accessor
-   public Card inspectCard(int k) {
+   public Card inspectCard(int k) 
+   {
 
       if (k >= 0 && k < numCards) // assume valid k starts from 0
       {
@@ -848,7 +899,8 @@ class Hand {
    /**
     * Sort the cards in the hand in ascending order
     */
-   public void sort() {
+   public void sort() 
+   {
       Card.arraySort(myCards, numCards);
    }
 
@@ -857,8 +909,10 @@ class Hand {
     * 
     * @return a good card if there is any
     */
-   public Card playCard() {
-      if (numCards > 0) {
+   public Card playCard() 
+   {
+      if (numCards > 0) 
+      {
          numCards--;
          return myCards[numCards];
       }
@@ -875,7 +929,8 @@ class Hand {
     * @param cardIndex the location where the card is removed from the hand
     * @return the card at the given location or a bad card if location is invalid
     */
-   public Card playCard(int cardIndex) {
+   public Card playCard(int cardIndex) 
+   {
       if (cardIndex < 0 || cardIndex >= numCards) // out of bound error
       {
          // Creates a card that does not work
@@ -886,7 +941,8 @@ class Hand {
       numCards--;
 
       // Slide down cards that followed down one spot
-      for (int i = cardIndex; i < numCards; i++) {
+      for (int i = cardIndex; i < numCards; i++) 
+      {
          myCards[i] = myCards[i + 1];
       }
 
@@ -906,7 +962,8 @@ class Hand {
  * imported Deck class
  ***************************************************************/
 
-class Deck {
+class Deck 
+{
    // playing card pack values
    public static final int MAX_CARDS = 312; // 6 packs x 52 cards
    public static final int ONE_PACK = 52; // standard 52 cards
@@ -925,7 +982,8 @@ class Deck {
     * 
     * @param numPacks
     */
-   public Deck(int numPacks) {
+   public Deck(int numPacks) 
+   {
       // maximum packs is 6
       if ((numPacks * ONE_PACK) > MAX_CARDS)
          numPacks = 6;
@@ -946,7 +1004,8 @@ class Deck {
     * Overloaded no argument constructor that creates a pack of cards using just
     * one deck
     */
-   public Deck() {
+   public Deck() 
+   {
       this.numPacks = 1;
 
       allocateMasterPack();
@@ -958,7 +1017,8 @@ class Deck {
       topCard = ONE_PACK; // no jokers that will be added if needed
 
       // Loop through the cards array, populating it with Cards
-      for (int i = 0; i < topCard; i++) {
+      for (int i = 0; i < topCard; i++) 
+      {
          // Create a new Card Object, copying it from the masterPack
          cards[i] = new Card(masterPack[i]);
       }
@@ -969,7 +1029,8 @@ class Deck {
     * 
     * @param numPacks
     */
-   public void init(int numPacks) {
+   public void init(int numPacks) 
+   {
 
       // Initialize the last index of the array to be the top card of the deck
       topCard = numPacks * ONE_PACK; // no jokers that can be added when needed
@@ -978,7 +1039,8 @@ class Deck {
 
       // Populate the card array with Card objects, copying values from
       // masterPack
-      for (int masterCounter = 0, i = 0; i < topCard; i++, masterCounter++) {
+      for (int masterCounter = 0, i = 0; i < topCard; i++, masterCounter++) 
+      {
          // Create a new Card Object, copying it from the masterPack
          cards[i] = new Card(masterPack[masterCounter]);
 
@@ -993,13 +1055,15 @@ class Deck {
    /**
     * Shuffles the deck of Cards
     */
-   public void shuffle() {
+   public void shuffle() 
+   {
       Random shuffle = new Random();
       Card tempCard;
       int randCard;
 
       // loops through the entire deck
-      for (int x = 0; x < topCard; x++) {
+      for (int x = 0; x < topCard; x++) 
+      {
          // Picks a random card from the deck
          randCard = shuffle.nextInt(ONE_PACK);
          // assigns the random card to a placeholder
@@ -1018,11 +1082,13 @@ class Deck {
     * 
     * @return the top Card from the deck.
     */
-   public Card dealCard() {
+   public Card dealCard() 
+   {
       Card dealCard;
 
       // checks if there are cards in the deck
-      if (topCard > 0) {
+      if (topCard > 0) 
+      {
          // assigns the top card to the dealCard variable
          dealCard = inspectCard(topCard - 1);
 
@@ -1042,7 +1108,8 @@ class Deck {
     * 
     * @return the number of cards in the deck
     */
-   public int getTopCard() {
+   public int getTopCard() 
+   {
       return topCard;
    }
 
