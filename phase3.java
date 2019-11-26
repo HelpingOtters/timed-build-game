@@ -46,12 +46,8 @@ public class phase3 implements ActionListener
    
    public static void main(String[] args)
    {
-      phase3 gamePlay = new phase3();
-      
-   }
+      //phase3 gamePlay = new phase3();
 
-   public phase3()
-   {
       int numPacksPerDeck = 1;
       int numJokersPerPack = 4;
       int numUnusedCardsPerPack = 0;
@@ -82,12 +78,18 @@ public class phase3 implements ActionListener
 
       // show everything to the user
       myCardTable.setVisible(true);
+      
+   }
+
+   public phase3()
+   {
+      
    }
 
    /* 
     * Helper method to create all the card labels on the game table
     */
-   private void createLabels()
+   private static void createLabels()
    {
       // Create the labels
       for (int card = 0; card < NUM_CARDS_PER_HAND; card++)
@@ -102,7 +104,7 @@ public class phase3 implements ActionListener
          cardButtons[card] = new JButton(tempIcon);
          cardButtons[card].setSize(73,97);
          cardButtons[card].setActionCommand(Integer.toString(card));
-         cardButtons[card].addActionListener(this);
+         cardButtons[card].addActionListener(new phase3());
          
          // add computer's card labels to the table
          myCardTable.pnlComputerHand.add(computerLabels[card]);
