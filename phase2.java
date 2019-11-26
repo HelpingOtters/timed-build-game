@@ -10,6 +10,7 @@ import javax.swing.border.TitledBorder;
  * @author Ricardo Barbosa 
  * @author Max Halbert
  * @version November 26, 2019
+ * 
  * CardTable
  * description:  creates CardTable class that extends JFrame
  * usage:        controls the positioning of the panels and 
