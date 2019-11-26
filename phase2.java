@@ -7,6 +7,9 @@ import javax.swing.border.TitledBorder;
 /*********************************************************************
  * Phase 2
  * 
+ * @author Ricardo Barbosa 
+ * @author Max Halbert
+ * @version November 26, 2019
  * CardTable
  * description:  creates CardTable class that extends JFrame
  * usage:        controls the positioning of the panels and 
@@ -20,7 +23,7 @@ import javax.swing.border.TitledBorder;
  /******************************
   * client (main)
   ******************************/
-public class phase2
+public class Phase2
 {
    static int NUM_CARDS_PER_HAND = 7;
    static int  NUM_PLAYERS = 2;
