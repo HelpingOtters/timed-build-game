@@ -14,7 +14,7 @@ import java.awt.event.*;
  * with the computer. 
  * 
  ***********************************************************************/
-public class Phase3 implements ActionListener
+class Phase3 implements ActionListener
 {
    static int NUM_CARDS_PER_HAND = 7;
    static int  NUM_PLAYERS = 2;
