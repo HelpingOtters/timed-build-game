@@ -63,6 +63,8 @@ public class phase3 implements ActionListener
       myCardTable.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       // Set up the play area layout
       myCardTable.pnlPlayArea.setLayout(new BorderLayout());
+      myCardTable.pnlHumanHand.setLayout(new FlowLayout(FlowLayout.CENTER));
+      myCardTable.pnlComputerHand.setLayout(new FlowLayout(FlowLayout.CENTER));
       
       // Create the card labels and add them into the GUI
       createLabels();
@@ -87,7 +89,7 @@ public class phase3 implements ActionListener
 
          // Create buttons for each of the human cards
          cardButtons[card] = new JButton(tempIcon);
-         cardButtons[card].setSize(73,97);
+         cardButtons[card].setPreferredSize(new Dimension(73,97));
          cardButtons[card].setActionCommand(Integer.toString(card));
          cardButtons[card].addActionListener(new phase3());
          
@@ -123,7 +125,7 @@ public class phase3 implements ActionListener
 
       updateButtons();
       
-      myCardTable.setVisible(true);
+      //myCardTable.setVisible(true);
 
       // Check if the game is over 
       if(LowCardGame.getHand(HUMAN_INDEX).getNumCards() == 0)
@@ -246,9 +248,13 @@ public class phase3 implements ActionListener
    {
       myCardTable.pnlHumanHand.removeAll();
       myCardTable.pnlComputerHand.removeAll();
+      myCardTable.pnlComputerHand.setVisible(false);
+      myCardTable.pnlHumanHand.setVisible(false);
+
       // Create the labels
       for (int card = 0; card < LowCardGame.getHand(HUMAN_INDEX).getNumCards(); card++)
       {
+      
          //back labels made for playing cards 
          computerLabels[card] = new JLabel(GUICard.getBackCardIcon());
          
@@ -256,7 +262,7 @@ public class phase3 implements ActionListener
          tempIcon = GUICard.getIcon(LowCardGame.getHand(HUMAN_INDEX).inspectCard(card));
 
          cardButtons[card] = new JButton(tempIcon);
-         cardButtons[card].setSize(73,97);
+         cardButtons[card].setPreferredSize(new Dimension(73,97));
          cardButtons[card].setActionCommand(Integer.toString(card));
          cardButtons[card].addActionListener(this);
 
@@ -266,7 +272,9 @@ public class phase3 implements ActionListener
          // index label added to computer panel
          myCardTable.pnlComputerHand.add(computerLabels[card]);
       }
-
+      myCardTable.setVisible(true);
+      myCardTable.pnlComputerHand.setVisible(true);
+      myCardTable.pnlHumanHand.setVisible(true);
    }
 }
 
@@ -463,6 +471,7 @@ class CardTable extends JFrame
 
       // lays out the border
       setLayout(new BorderLayout());
+      
 
       // values that will be used
       this.numCardsPerHand = numCardsPerHand;
@@ -476,7 +485,7 @@ class CardTable extends JFrame
       // place panels on grid
       add(pnlPlayArea, BorderLayout.CENTER);
       add(pnlComputerHand, BorderLayout.NORTH);
-      add(pnlHumanHand, BorderLayout.SOUTH);
+      add(pnlHumanHand, BorderLayout.SOUTH);      
 
       // labels the borders
       pnlPlayArea.setBorder(new TitledBorder("Community"));
