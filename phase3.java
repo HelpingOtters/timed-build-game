@@ -14,7 +14,7 @@ import java.awt.event.*;
  * with the computer. 
  * 
  ***********************************************************************/
-class Phase3 implements ActionListener
+public class Phase3 implements ActionListener
 {
    static int NUM_CARDS_PER_HAND = 7;
    static int  NUM_PLAYERS = 2;
@@ -127,13 +127,8 @@ class Phase3 implements ActionListener
 
       determineWinner(cardsInPlay[COMP_INDEX], cardsInPlay[HUMAN_INDEX]);
 
-      // Each player takes a new card
-      //LowCardGame.takeCard(HUMAN_INDEX);
-      //LowCardGame.takeCard(COMP_INDEX);
-
       updateButtons();
       
-      //myCardTable.setVisible(true);
 
       // Check if the game is over 
       if(LowCardGame.getHand(HUMAN_INDEX).getNumCards() == 0)
@@ -296,7 +291,7 @@ class Phase3 implements ActionListener
 }
 /*-----------------------------
  * End of Phase3 client (main)
- * ----------------------/
+ * ---------------------------/
 
 /****************************************
  * CardGameFrameWork class
