@@ -118,8 +118,8 @@ public class Phase3 implements ActionListener
       determineWinner(cardsInPlay[COMP_INDEX], cardsInPlay[HUMAN_INDEX]);
 
       // Each player takes a new card
-      LowCardGame.takeCard(HUMAN_INDEX);
-      LowCardGame.takeCard(COMP_INDEX);
+      //LowCardGame.takeCard(HUMAN_INDEX);
+      //LowCardGame.takeCard(COMP_INDEX);
 
       updateButtons();
       
@@ -178,16 +178,28 @@ public class Phase3 implements ActionListener
       //computer wins senario
       if(computerWinningsCounter > humanWinningsCounter)
       {
-         JOptionPane.showMessageDialog(null,new JLabel(compWinner,JLabel.CENTER),"01010111 01001001 01001110", JOptionPane.PLAIN_MESSAGE);        
+         myCardTable.pnlPlayArea.removeAll();
+         cardsPanel.removeAll();
+         JOptionPane.showMessageDialog(null,new JLabel(compWinner,JLabel.CENTER),"01010111 01001001 01001110", JOptionPane.PLAIN_MESSAGE);  
+         System.exit(0);       
       }
       //human wins senario
       else if (humanWinningsCounter > computerWinningsCounter)
       {
-         JOptionPane.showMessageDialog(null,new JLabel(humanWinner,JLabel.CENTER),"HUMANS RULE! ROBOTS DROOL!", JOptionPane.PLAIN_MESSAGE);        
+         myCardTable.pnlPlayArea.removeAll();
+         cardsPanel.removeAll();
+         JOptionPane.showMessageDialog(null,new JLabel(humanWinner,JLabel.CENTER),"HUMANS RULE! ROBOTS DROOL!", JOptionPane.PLAIN_MESSAGE); 
+         System.exit(0);       
       }
-      //tie senario
+      //tie senario. If we are only playing cards in hand this should never happen
       else
-         JOptionPane.showMessageDialog(null,new ImageIcon("gifs/TIE.gif"),"IT'S A TIE", JOptionPane.PLAIN_MESSAGE);
+      {
+         //JOptionPane.showMessageDialog(null,new ImageIcon("gifs/TIE.gif"),"IT'S A TIE", JOptionPane.PLAIN_MESSAGE);
+         myCardTable.pnlPlayArea.removeAll();
+         cardsPanel.removeAll();
+         JOptionPane.showMessageDialog(null,new JLabel(tie,JLabel.CENTER),"IT'S A TIE", JOptionPane.PLAIN_MESSAGE);
+         System.exit(0); 
+      }
 
    }
    
@@ -234,7 +246,6 @@ public class Phase3 implements ActionListener
    {
       myCardTable.pnlHumanHand.removeAll();
       myCardTable.pnlComputerHand.removeAll();
-      System.out.println("cards in hand: " + LowCardGame.getHand(HUMAN_INDEX).getNumCards());
       // Create the labels
       for (int card = 0; card < LowCardGame.getHand(HUMAN_INDEX).getNumCards(); card++)
       {
