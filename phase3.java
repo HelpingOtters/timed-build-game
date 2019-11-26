@@ -1,53 +1,44 @@
 import java.awt.*;
-import javax.lang.model.util.ElementScanner6;
 import javax.swing.*;
-import javax.swing.border.*;
 import java.util.Random;
 import javax.swing.border.TitledBorder;
 import java.awt.event.*;
-import java.util.concurrent.TimeUnit;
 
 /************************************************************************
  * Low-Card Game Logic
  * 
- * @todo         #create action listeners.
- *               #place low card in winning[] array.
- *               #add JLabels.
- *               #decide how to select a card from your hand (button?).
- *               #decide how the computer plays. 
- *                   -intentionally lose? always win?
- *               #decide how to update cards or the computer's cards to                reflect one fewer card every round so that 
- *                   reflect one fewer card every round 
- *                   so that hands get smaller.
- * 
+ * @author Dan Sedano 
+ * @author Lindsey Reynols
+ * @version 11/25/19
+ * Description: Program that allows the user to play the game "Low-Card" 
+ * with the computer. 
  * 
  ***********************************************************************/
 public class phase3 implements ActionListener
 {
    static int NUM_CARDS_PER_HAND = 7;
    static int  NUM_PLAYERS = 2;
+   static final int HUMAN_INDEX = 1;
+   static final int COMP_INDEX = 0;
+   static int computerWinningsCounter = 0;
+   static int humanWinningsCounter = 0;
+   
+   static JPanel cardsPanel = new JPanel(new GridLayout());
    static JLabel[] computerLabels = new JLabel[NUM_CARDS_PER_HAND];
-   static JLabel[] humanLabels = new JLabel[NUM_CARDS_PER_HAND];  
    static JLabel[] playedCardLabels  = new JLabel[NUM_PLAYERS]; 
    static JLabel[] playLabelText  = new JLabel[NUM_PLAYERS];
    static JButton cardButtons[] = new JButton[NUM_CARDS_PER_HAND];
-   static JPanel cardsPanel = new JPanel(new GridLayout());
+
    static Card[] cardsInPlay = new Card[NUM_PLAYERS];
    static Card[] compWinnings = new Card[57]; //fix size and instantiate in main
    static Card[] humanWinnings = new Card[57]; //fix size instantiate in main
+   
    static CardGameFramework LowCardGame;
    static Icon tempIcon;
    static CardTable myCardTable;
-   static int computerWinningsCounter = 0;
-   static int humanWinningsCounter = 0;
-   static final int HUMAN_INDEX = 1;
-   static final int COMP_INDEX = 0;
-
    
    public static void main(String[] args)
    {
-      //phase3 gamePlay = new phase3();
-
       int numPacksPerDeck = 1;
       int numJokersPerPack = 4;
       int numUnusedCardsPerPack = 0;
@@ -78,12 +69,6 @@ public class phase3 implements ActionListener
 
       // show everything to the user
       myCardTable.setVisible(true);
-      
-   }
-
-   public phase3()
-   {
-      
    }
 
    /* 
@@ -116,6 +101,7 @@ public class phase3 implements ActionListener
 
    /**
     * Action event that is fired every time the user clicks a card button
+    *@param ActionEvent
     */
    @Override
    public void actionPerformed(ActionEvent e) 
@@ -144,6 +130,10 @@ public class phase3 implements ActionListener
          endGame();
    }
 
+   /**
+    * Gets the playing card from each player and adds it to the card table.
+    * @param int the index of the card being played
+    */
    private void putCardsOnTable(int cardNum)
    {
       // Each player plays a card
@@ -176,32 +166,37 @@ public class phase3 implements ActionListener
       myCardTable.pnlPlayArea.add(cardsPanel, BorderLayout.NORTH);
    }
 
+   /**
+    * Checks the final score of the game and displays the
+    * the approriate message.
+    */
    private void endGame()
    {
-      //myCardTable.add(endMessage);
       String compWinner = "Computers win! " + computerWinningsCounter + " vs " + humanWinningsCounter;
       String humanWinner = "Humans win! " + humanWinningsCounter + " vs " + computerWinningsCounter;
       String tie = humanWinningsCounter + " vs " + computerWinningsCounter;
-
+      //computer wins senario
       if(computerWinningsCounter > humanWinningsCounter)
       {
-         //JOptionPane.showMessageDialog(null,new ImageIcon("gifs/TIE.gif",tie),"IT'S A TIE", JOptionPane.PLAIN_MESSAGE);
-         JOptionPane.showMessageDialog(null,new JLabel(compWinner,JLabel.CENTER),"01010111 01001001 01001110", JOptionPane.PLAIN_MESSAGE);
-         JOptionPane.showMessageDialog(null,new ImageIcon("gifs/TIE.png"),"IT'S A TIE", JOptionPane.PLAIN_MESSAGE);
-         //myCardTable.removeAll();
-         //myCardTable.add(new JLabel(new ImageIcon("gifs/TIE.gif")));
+         JOptionPane.showMessageDialog(null,new JLabel(compWinner,JLabel.CENTER),"01010111 01001001 01001110", JOptionPane.PLAIN_MESSAGE);        
       }
+      //human wins senario
       else if (humanWinningsCounter > computerWinningsCounter)
       {
-         JOptionPane.showMessageDialog(null,new JLabel(humanWinner,JLabel.CENTER),"HUMANS RULE! ROBOTS DROOL!", JOptionPane.PLAIN_MESSAGE);
-         JOptionPane.showMessageDialog(null,new ImageIcon("gifs/TIE.png"),"IT'S A TIE", JOptionPane.PLAIN_MESSAGE);
-         
+         JOptionPane.showMessageDialog(null,new JLabel(humanWinner,JLabel.CENTER),"HUMANS RULE! ROBOTS DROOL!", JOptionPane.PLAIN_MESSAGE);        
       }
+      //tie senario
       else
          JOptionPane.showMessageDialog(null,new ImageIcon("gifs/TIE.gif"),"IT'S A TIE", JOptionPane.PLAIN_MESSAGE);
 
    }
-
+   
+   /**
+    * Determines the winner of the round and displays
+    * the appropriate message.
+    * @param compCard
+    * @param humanCard
+    */
    private void determineWinner(Card compCard, Card humanCard)
    {
       JLabel winnerMessage = new JLabel("", JLabel.CENTER);
@@ -232,6 +227,9 @@ public class phase3 implements ActionListener
       myCardTable.pnlPlayArea.add(winnerMessage, BorderLayout.CENTER);
    }
 
+   /**
+    * Updates the card buttons for the player panel.
+    */
    private void updateButtons()
    {
       myCardTable.pnlHumanHand.removeAll();
@@ -260,7 +258,6 @@ public class phase3 implements ActionListener
 
    }
 }
-
 /*-----------------------------
  * End of phase3 client (main)
  * ----------------------/
