@@ -14,7 +14,7 @@ import java.awt.event.*;
  * with the computer. 
  * 
  ***********************************************************************/
-public class phase3 implements ActionListener
+class Phase3 implements ActionListener
 {
    static int NUM_CARDS_PER_HAND = 7;
    static int  NUM_PLAYERS = 2;
@@ -89,7 +89,7 @@ public class phase3 implements ActionListener
          cardButtons[card] = new JButton(tempIcon);
          cardButtons[card].setSize(73,97);
          cardButtons[card].setActionCommand(Integer.toString(card));
-         cardButtons[card].addActionListener(new phase3());
+         cardButtons[card].addActionListener(new Phase3());
          
          // add computer's card labels to the table
          myCardTable.pnlComputerHand.add(computerLabels[card]);
@@ -118,8 +118,8 @@ public class phase3 implements ActionListener
       determineWinner(cardsInPlay[COMP_INDEX], cardsInPlay[HUMAN_INDEX]);
 
       // Each player takes a new card
-      LowCardGame.takeCard(HUMAN_INDEX);
-      LowCardGame.takeCard(COMP_INDEX);
+      //LowCardGame.takeCard(HUMAN_INDEX);
+      //LowCardGame.takeCard(COMP_INDEX);
 
       updateButtons();
       
@@ -178,16 +178,28 @@ public class phase3 implements ActionListener
       //computer wins senario
       if(computerWinningsCounter > humanWinningsCounter)
       {
-         JOptionPane.showMessageDialog(null,new JLabel(compWinner,JLabel.CENTER),"01010111 01001001 01001110", JOptionPane.PLAIN_MESSAGE);        
+         myCardTable.pnlPlayArea.removeAll();
+         cardsPanel.removeAll();
+         JOptionPane.showMessageDialog(null,new JLabel(compWinner,JLabel.CENTER),"01010111 01001001 01001110", JOptionPane.PLAIN_MESSAGE);  
+         System.exit(0);       
       }
       //human wins senario
       else if (humanWinningsCounter > computerWinningsCounter)
       {
-         JOptionPane.showMessageDialog(null,new JLabel(humanWinner,JLabel.CENTER),"HUMANS RULE! ROBOTS DROOL!", JOptionPane.PLAIN_MESSAGE);        
+         myCardTable.pnlPlayArea.removeAll();
+         cardsPanel.removeAll();
+         JOptionPane.showMessageDialog(null,new JLabel(humanWinner,JLabel.CENTER),"HUMANS RULE! ROBOTS DROOL!", JOptionPane.PLAIN_MESSAGE); 
+         System.exit(0);       
       }
-      //tie senario
+      //tie senario. If we are only playing cards in hand this should never happen
       else
-         JOptionPane.showMessageDialog(null,new ImageIcon("gifs/TIE.gif"),"IT'S A TIE", JOptionPane.PLAIN_MESSAGE);
+      {
+         //JOptionPane.showMessageDialog(null,new ImageIcon("gifs/TIE.gif"),"IT'S A TIE", JOptionPane.PLAIN_MESSAGE);
+         myCardTable.pnlPlayArea.removeAll();
+         cardsPanel.removeAll();
+         JOptionPane.showMessageDialog(null,new JLabel(tie,JLabel.CENTER),"IT'S A TIE", JOptionPane.PLAIN_MESSAGE);
+         System.exit(0); 
+      }
 
    }
    
@@ -234,7 +246,6 @@ public class phase3 implements ActionListener
    {
       myCardTable.pnlHumanHand.removeAll();
       myCardTable.pnlComputerHand.removeAll();
-      System.out.println("cards in hand: " + LowCardGame.getHand(HUMAN_INDEX).getNumCards());
       // Create the labels
       for (int card = 0; card < LowCardGame.getHand(HUMAN_INDEX).getNumCards(); card++)
       {
@@ -259,7 +270,7 @@ public class phase3 implements ActionListener
    }
 }
 /*-----------------------------
- * End of phase3 client (main)
+ * End of Phase3 client (main)
  * ----------------------/
 
 /****************************************
@@ -1060,7 +1071,7 @@ class Deck {
    }
 
    /**
-    * Adds the card to the top of the deck based on the number of packs
+    * Adds the card to the top of the deck if there aren't too many instances
     * 
     * @param card the card to be added
     * @return false if the card is already there or no rooms, otherwise return
@@ -1072,25 +1083,28 @@ class Deck {
       {
          return false; // no room for the card
       }
-
+      
+      int ctr = 0; // counter for the instances of the card
       for (int i = 0; i < topCard; i++)
       {
          if (cards[i].equals(card))
          {
-            return false; // the card is there already
+            ctr++;
          }
       }
 
-      for (int n = 0; n < numPacks; n++)
+      if(ctr < numPacks)
       {
-         cards[topCard] = card; // add the card for each pack
+         // number of instances not exceeding the numPacks
+         cards[topCard] = card; // add the card to the deck
          topCard++;
+         return true;
       }
-      return true;
+      return false;
    }
 
    /**
-    * Remove all the instances of a specific card from the deck
+    * Remove one instance of a specific card from the deck
     * 
     * @param card the specific card
     * @return true if success, otherwise false
@@ -1098,27 +1112,18 @@ class Deck {
    public boolean removeCard(Card card)
    {
 
-      boolean found = false; // card may not be in the deck
-      int i = 0;
-
-      // remove all the instances of the card
-      while (i < topCard)
+      // remove only one instance of the card
+      for (int i = 0; i < topCard; i++)
       {
          if (cards[i].equals(card))
          {
-            // Replace the card with the top card of the deck
-            // Don't increment i since we need to check the replacement card
             cards[i] = cards[topCard - 1];
             cards[topCard - 1] = null;
             topCard--;
-            found = true;
-         }
-         else
-         {
-            i++;
+            return true;
          }
       }
-      return found;
+      return false;
    }
 
    public void sort()

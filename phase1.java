@@ -3,14 +3,12 @@ import java.awt.*;
 
 /************************************************************
  * Phase 1
- * GUI Cards 
- * 
- * @phase1_todo   loadCardIcons()
- *                turnIntIntoCardValue(int k)
- *                turnIntIntoCardSuit(int j)     
+ * @author Lindsey Reynolds
+ * @version November 26, 2019
+ *    
  ************************************************************/
 
-public class phase1
+class Phase1
 {
    // static for the 57 icons and their corresponding labels
    // normally we would not have a separate label for each card, but
@@ -19,7 +17,7 @@ public class phase1
    static final int NUM_CARD_IMAGES = 57; // 52 + 4 jokers + 1 back-of-card image
    static String[] values = 
       {"A", "2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K", "X"};
-   static String[] suits = {"C", "D", "H", "S"};
+   static String[] suits = {"C", "D","H", "S"};
    static Icon[] icon = new ImageIcon[NUM_CARD_IMAGES];
       
    static void loadCardIcons()

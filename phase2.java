@@ -7,6 +7,10 @@ import javax.swing.border.TitledBorder;
 /*********************************************************************
  * Phase 2
  * 
+ * @author Ricardo Barbosa 
+ * @author Max Halbert
+ * @version November 26, 2019
+ * 
  * CardTable
  * description:  creates CardTable class that extends JFrame
  * usage:        controls the positioning of the panels and 
@@ -20,7 +24,7 @@ import javax.swing.border.TitledBorder;
  /******************************
   * client (main)
   ******************************/
-public class phase2
+public class Phase2
 {
    static int NUM_CARDS_PER_HAND = 7;
    static int  NUM_PLAYERS = 2;
@@ -31,7 +35,7 @@ public class phase2
    
    public static void main(String[] args)
    {
-      int k;
+      int card;
       Icon tempIcon;
 
       //Icons loaded from GUICard 
@@ -48,7 +52,7 @@ public class phase2
       myCardTable.setVisible(true);
 
       // CREATE LABELS ----------------------------------------------------
-      for (int card = 0; card < NUM_CARDS_PER_HAND; card++)
+      for (card = 0; card < NUM_CARDS_PER_HAND; card++)
       {
          //back labels made for playing cards 
          computerLabels[card] = new JLabel(GUICard.getBackCardIcon());
@@ -59,7 +63,7 @@ public class phase2
       }
   
       // ADD LABELS TO PANELS -----------------------------------------
-      for (int card = 0; card < NUM_CARDS_PER_HAND; card++)
+      for (card = 0; card < NUM_CARDS_PER_HAND; card++)
       {
          //index label added to computer panel 
          myCardTable.pnlComputerHand.add(computerLabels[card]);
@@ -70,7 +74,7 @@ public class phase2
       
       // and two random cards in the play region (simulating a computer/hum ply)
       //code goes here ...
-      for (int card = 0; card < NUM_PLAYERS; card++)
+      for (card = 0; card < NUM_PLAYERS; card++)
       {
          //random card generated 
          tempIcon = GUICard.getIcon(randomCardGenerator());
@@ -90,10 +94,17 @@ public class phase2
     */
     static Card randomCardGenerator()
     {
-       Deck deck = new Deck();
-       Random randomGen = new Random();
-       return deck.inspectCard(randomGen.nextInt(deck.getNumCards()));
-    }
+      Random rnd = new Random();
+
+      // Setup Random Suit
+      Card.Suit rndSuit =
+         Card.Suit.values()[rnd.nextInt(Card.Suit.values().length)];
+
+      // Setup Random Value
+      char rndValue = Card.valuRanks[rnd.nextInt(Card.valuRanks.length)];
+
+      return new Card(rndValue, rndSuit);
+   }
 }
 /*-----------------------------
  * End of phase2 client (main)
@@ -126,8 +137,11 @@ public class phase2
     */
    public CardTable(String title, int numCardsPerHand, int numPlayers)
    {
+      //calls constructor 
+      super();
+
       //displays title on window 
-      super(title);
+      setTitle(title);
 
       //lays out the border 
       setLayout(new BorderLayout());
@@ -802,7 +816,7 @@ class Deck
    }
 
    /**
-    * Adds the card to the top of the deck based on the number of packs
+    * Adds the card to the top of the deck if there aren't too many instances
     * 
     * @param card the card to be added
     * @return false if the card is already there or no rooms, otherwise return
@@ -814,25 +828,28 @@ class Deck
       {
          return false; // no room for the card
       }
-
+      
+      int ctr = 0; // counter for the instances of the card
       for (int i = 0; i < topCard; i++)
       {
          if (cards[i].equals(card))
          {
-            return false; // the card is there already
+            ctr++;
          }
       }
 
-      for (int n = 0; n < numPacks; n++)
+      if(ctr < numPacks)
       {
-         cards[topCard] = card; // add the card for each pack
+         // number of instances not exceeding the numPacks
+         cards[topCard] = card; // add the card to the deck
          topCard++;
+         return true;
       }
-      return true;
+      return false;
    }
 
    /**
-    * Remove all the instances of a specific card from the deck
+    * Remove one instance of a specific card from the deck
     * 
     * @param card the specific card
     * @return true if success, otherwise false
@@ -840,27 +857,18 @@ class Deck
    public boolean removeCard(Card card)
    {
 
-      boolean found = false; // card may not be in the deck
-      int i = 0;
-
-      // remove all the instances of the card
-      while (i < topCard)
+      // remove only one instance of the card
+      for (int i = 0; i < topCard; i++)
       {
          if (cards[i].equals(card))
          {
-            // Replace the card with the top card of the deck
-            // Don't increment i since we need to check the replacement card
             cards[i] = cards[topCard - 1];
             cards[topCard - 1] = null;
             topCard--;
-            found = true;
-         }
-         else
-         {
-            i++;
+            return true;
          }
       }
-      return found;
+      return false;
    }
 
    public void sort()
