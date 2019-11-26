@@ -35,35 +35,13 @@ class Phase1
       {
          // loop through number of suits, 0 - 3, which will be converted to card suits
          for(int suitIndex = 0; suitIndex < suits.length; suitIndex++, arrayIndex++){
-            imageName = turnIntIntoCardValue(valueIndex) + turnIntIntoCardSuit(suitIndex);               
+            imageName = values[valueIndex] + suits[suitIndex];               
             fileString = "images/" + imageName + ".gif";
             icon[arrayIndex] = new ImageIcon(fileString);
          }
       }
       // add in the blank card icon
       icon[NUM_CARD_IMAGES - 1] = new ImageIcon("images/BK.gif");
-   }
-   
-   // turns 0 - 13 into "A", "2", "3", ... "Q", "K", "X"
-   static String turnIntIntoCardValue(int k)
-   {
-      for(int i = 0; i < values.length; i++)
-      {
-         if(k == i)
-            return values[i];
-      }
-      return "";
-   }
-   
-   // turns 0 - 3 into "C", "D", "H", "S"
-   static String turnIntIntoCardSuit(int j)
-   {
-      for(int i = 0; i < suits.length; i++)
-      {
-         if(j == i)
-            return suits[i];
-      }
-      return "";
    }
    
    // a simple main to throw all the JLabels out there for the world to see

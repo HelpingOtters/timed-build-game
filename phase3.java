@@ -294,7 +294,6 @@ class Phase3 implements ActionListener
       myCardTable.pnlHumanHand.setVisible(true);
    }
 }
-
 /*-----------------------------
  * End of Phase3 client (main)
  * ----------------------/
