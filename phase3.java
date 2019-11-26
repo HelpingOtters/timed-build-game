@@ -516,13 +516,6 @@ class CardTable extends JFrame
       playerHandBorder.setTitleColor(new Color(228,132,0));
       pnlHumanHand.setBorder(playerHandBorder);
 
-      //pnlPlayArea.setBorder(new TitledBorder("Community"));
-      //pnlComputerHand.setBorder(new TitledBorder("Opponent"));
-      //pnlHumanHand.setBorder(new TitledBorder("You"));
-
-      //((JComponent) pnlPlayArea.getBorder()).setBackground(new Color(228, 132, 0));
-      //pnlPlayArea.setBorder(new LineBorder(Color.ORANGE));
-
    }
 
    // accessors
