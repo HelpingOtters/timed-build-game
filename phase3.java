@@ -18,22 +18,24 @@ public class phase3 implements ActionListener
 {
    static int NUM_CARDS_PER_HAND = 7;
    static int  NUM_PLAYERS = 2;
+   static final int HUMAN_INDEX = 1;
+   static final int COMP_INDEX = 0;
+   static int computerWinningsCounter = 0;
+   static int humanWinningsCounter = 0;
+   
+   static JPanel cardsPanel = new JPanel(new GridLayout());
    static JLabel[] computerLabels = new JLabel[NUM_CARDS_PER_HAND];
-   static JLabel[] humanLabels = new JLabel[NUM_CARDS_PER_HAND];  
    static JLabel[] playedCardLabels  = new JLabel[NUM_PLAYERS]; 
    static JLabel[] playLabelText  = new JLabel[NUM_PLAYERS];
    static JButton cardButtons[] = new JButton[NUM_CARDS_PER_HAND];
-   static JPanel cardsPanel = new JPanel(new GridLayout());
+
    static Card[] cardsInPlay = new Card[NUM_PLAYERS];
    static Card[] compWinnings = new Card[57]; //fix size and instantiate in main
    static Card[] humanWinnings = new Card[57]; //fix size instantiate in main
+   
    static CardGameFramework LowCardGame;
    static Icon tempIcon;
    static CardTable myCardTable;
-   static int computerWinningsCounter = 0;
-   static int humanWinningsCounter = 0;
-   static final int HUMAN_INDEX = 1;
-   static final int COMP_INDEX = 0;
    
    public static void main(String[] args)
    {
