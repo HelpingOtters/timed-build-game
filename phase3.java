@@ -36,6 +36,9 @@ public class phase3 implements ActionListener
    static CardGameFramework LowCardGame;
    static Icon tempIcon;
    static CardTable myCardTable;
+
+   static Color backgroundColor = new Color(53,101,77);
+   static Color textColor = new Color(228,131,0);
    
    public static void main(String[] args)
    {
@@ -65,6 +68,10 @@ public class phase3 implements ActionListener
       myCardTable.pnlPlayArea.setLayout(new BorderLayout());
       myCardTable.pnlHumanHand.setLayout(new FlowLayout(FlowLayout.CENTER));
       myCardTable.pnlComputerHand.setLayout(new FlowLayout(FlowLayout.CENTER));
+      //set background color
+      myCardTable.pnlPlayArea.setBackground(backgroundColor);
+      myCardTable.pnlHumanHand.setBackground(backgroundColor);
+      myCardTable.pnlComputerHand.setBackground(backgroundColor);
       
       // Create the card labels and add them into the GUI
       createLabels();
@@ -116,6 +123,7 @@ public class phase3 implements ActionListener
       LowCardGame.getHand(COMP_INDEX).sort();
       
       putCardsOnTable(cardNum);
+      
 
       determineWinner(cardsInPlay[COMP_INDEX], cardsInPlay[HUMAN_INDEX]);
 
@@ -147,8 +155,11 @@ public class phase3 implements ActionListener
       Icon compIcon = GUICard.getIcon(cardsInPlay[COMP_INDEX]);
 
       // Create each player's label to put on the playing area
-      playedCardLabels[HUMAN_INDEX] = new JLabel("You", JLabel.CENTER);   
+      playedCardLabels[HUMAN_INDEX] = new JLabel("You", JLabel.CENTER);  
+      playedCardLabels[HUMAN_INDEX].setForeground(textColor); 
       playedCardLabels[COMP_INDEX] = new JLabel("Computer", JLabel.CENTER);
+      playedCardLabels[COMP_INDEX].setForeground(textColor);
+
       playedCardLabels[HUMAN_INDEX].setIcon(playerIcon);   
       playedCardLabels[COMP_INDEX].setIcon(compIcon);
 
@@ -161,11 +172,14 @@ public class phase3 implements ActionListener
       // Remove old info from play area 
       myCardTable.pnlPlayArea.removeAll();
       cardsPanel.removeAll();
+      
 
       // Add new cards to play area
       cardsPanel.add(playedCardLabels[HUMAN_INDEX]);
       cardsPanel.add(playedCardLabels[COMP_INDEX]);
+      cardsPanel.setBackground(backgroundColor);
       myCardTable.pnlPlayArea.add(cardsPanel, BorderLayout.NORTH);
+      
    }
 
    /**
@@ -223,6 +237,7 @@ public class phase3 implements ActionListener
          compWinnings[computerWinningsCounter] = humanCard;
          computerWinningsCounter += 2;
          winnerMessage.setText("Resistance is futile");
+         winnerMessage.setForeground(textColor);
       }
       else if(Card.valueAsInt(compCard) > Card.valueAsInt(humanCard))
       {
@@ -231,11 +246,13 @@ public class phase3 implements ActionListener
          humanWinnings[humanWinningsCounter] = humanCard;
          humanWinningsCounter += 2;
          winnerMessage.setText("It's a Human thing— you wouldn't understand...");
+         winnerMessage.setForeground(textColor);
       }   
       else
       {
          // If there is a tie
          winnerMessage.setText("It's a tie!");
+         winnerMessage.setForeground(textColor);
       }
 
       myCardTable.pnlPlayArea.add(winnerMessage, BorderLayout.CENTER);
@@ -470,8 +487,7 @@ class CardTable extends JFrame
       super(title);
 
       // lays out the border
-      setLayout(new BorderLayout());
-      
+      setLayout(new BorderLayout());      
 
       // values that will be used
       this.numCardsPerHand = numCardsPerHand;
@@ -487,10 +503,25 @@ class CardTable extends JFrame
       add(pnlComputerHand, BorderLayout.NORTH);
       add(pnlHumanHand, BorderLayout.SOUTH);      
 
-      // labels the borders
-      pnlPlayArea.setBorder(new TitledBorder("Community"));
-      pnlComputerHand.setBorder(new TitledBorder("Opponent"));
-      pnlHumanHand.setBorder(new TitledBorder("You"));
+      // labels the borders and sets the colors
+      TitledBorder playAreaBorder = new TitledBorder("Community");
+      playAreaBorder.setTitleColor(new Color(228,132,0));
+      pnlPlayArea.setBorder(playAreaBorder);
+
+      TitledBorder compHandBorder = new TitledBorder("Opponent");
+      compHandBorder.setTitleColor(new Color(228,132,0));
+      pnlComputerHand.setBorder(compHandBorder);
+
+      TitledBorder playerHandBorder = new TitledBorder("Opponent");
+      playerHandBorder.setTitleColor(new Color(228,132,0));
+      pnlHumanHand.setBorder(playerHandBorder);
+
+      //pnlPlayArea.setBorder(new TitledBorder("Community"));
+      //pnlComputerHand.setBorder(new TitledBorder("Opponent"));
+      //pnlHumanHand.setBorder(new TitledBorder("You"));
+
+      //((JComponent) pnlPlayArea.getBorder()).setBackground(new Color(228, 132, 0));
+      //pnlPlayArea.setBorder(new LineBorder(Color.ORANGE));
 
    }
 
