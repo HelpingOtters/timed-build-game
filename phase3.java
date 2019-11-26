@@ -68,9 +68,6 @@ public class phase3 implements ActionListener
       myCardTable.setSize(800, 600);
       myCardTable.setLocationRelativeTo(null);
       myCardTable.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-      // show everything to the user
-      myCardTable.setVisible(true);
       
       // Create the card labels and add them into the GUI
       createLabels();
@@ -123,6 +120,12 @@ public class phase3 implements ActionListener
       // Get each player's card icons to be displayed in the playing area
       Icon playerIcon = GUICard.getIcon(LowCardGame.getHand(1).inspectCard(cardNum));
       Icon compIcon = GUICard.getIcon(LowCardGame.getHand(0).inspectCard(0));
+      
+      /* SHOULD BE DOING THIS, BUT ITS NOT WORKING 
+      Icon playerIcon = GUICard.getIcon(LowCardGame.playCard(1, cardNum));
+      Icon compIcon = GUICard.getIcon(LowCardGame.playCard(1, 0));
+      */
+
 
       // Create each player's label to put on the playing area
       playedCardLabels[1] = new JLabel("You", JLabel.CENTER);   
@@ -154,6 +157,7 @@ public class phase3 implements ActionListener
       myCardTable.pnlComputerHand.repaint();
       
       myCardTable.setVisible(true);
+
    }
 
    private void testActionListener()
