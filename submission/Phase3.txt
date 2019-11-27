@@ -8,7 +8,7 @@ import java.awt.event.*;
  * Low-Card Game Logic
  * 
  * @author Dan Sedano 
- * @author Lindsey Reynols
+ * @author Lindsey Reynolds
  * @version 11/25/19
  * Description: Program that allows the user to play the game "Low-Card" 
  * with the computer. 
